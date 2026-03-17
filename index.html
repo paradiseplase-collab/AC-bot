@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anastasia · VK Content Bot</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Raleway:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0b18;
+  --paper: #f5f0e8;
+  --cream: #ede7d5;
+  --rose: #c9485b;
+  --rose-dark: #9b2335;
+  --rose-light: #f2c4cc;
+  --gold: #b8860b;
+  --gold-light: #e8d5a0;
+  --indigo: #2d1b69;
+  --mist: #8a8098;
+  --border: #d4c9b8;
+  --white: #fdfaf5;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--ink);
+  font-family: 'Raleway', sans-serif;
+  min-height: 100vh;
+  color: var(--paper);
+  overflow-x: hidden;
+}
+
+/* Decorative background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(201,72,91,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 80%, rgba(45,27,105,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 40%, rgba(184,134,11,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER CONTRAST FIX ── */
+header {
+  background: rgba(245,240,232,0.96) !important;
+  border-radius: 20px !important;
+  padding: 24px 28px !important;
+  border: 1px solid rgba(201,72,91,0.2) !important;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.35) !important;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.header-left {}
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: var(--rose-dark);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--rose-dark);
+  letter-spacing: -0.5px;
+  text-shadow: none;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--rose-dark);
+  font-weight: 900;
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: #6b5a7a;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(201,72,91,0.12);
+  border: 1px solid rgba(201,72,91,0.3);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.68rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #e88a97;
+  letter-spacing: 1px;
+}
+
+.dot-live {
+  width: 6px; height: 6px;
+  background: var(--rose);
+  border-radius: 50%;
+  animation: livepulse 1.8s infinite;
+}
+
+@keyframes livepulse {
+  0%,100%{ opacity:1; box-shadow: 0 0 0 0 rgba(201,72,91,0.5); }
+  50%{ opacity:.7; box-shadow: 0 0 0 5px rgba(201,72,91,0); }
+}
+
+.schedule-pill {
+  font-size: 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--gold);
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+/* ── GRID LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── CARD ── */
+.card {
+  background: rgba(14,11,24,0.75);
+  border: 1px solid rgba(245,240,232,0.15);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  backdrop-filter: blur(12px);
+}
+
+.card-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(184,134,11,0.2);
+}
+
+/* ── FORM ELEMENTS ── */
+label.field-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.65);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 7px;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(245,240,232,0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--paper);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.83rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  margin-bottom: 18px;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(201,72,91,0.12);
+}
+select option { background: #1a1228; color: #ffffff; }
+textarea { resize: vertical; min-height: 70px; }
+
+/* ── FORMAT ROTATOR ── */
+.format-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.fmt-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 9px;
+  padding: 9px 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+.fmt-btn:hover { border-color: var(--rose); color: var(--rose-light); }
+.fmt-btn.active {
+  background: rgba(201,72,91,0.15);
+  border-color: var(--rose);
+  color: #f5a0ac;
+}
+
+/* ── SCHEDULE DAYS ── */
+.days-row {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.day-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(245,240,232,0.2);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(245,240,232,0.7);
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 1px;
+}
+.day-btn:hover { border-color: var(--gold); color: var(--gold); }
+.day-btn.active {
+  background: rgba(184,134,11,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* ── TOKENS ── */
+.token-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.token-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.token-field input {
+  margin-bottom: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+}
+.token-tag {
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--gold);
+  background: rgba(184,134,11,0.1);
+  border: 1px solid rgba(184,134,11,0.2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+/* ── GENERATE BUTTON ── */
+.btn-gen {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--rose-dark) 0%, var(--rose) 60%, #e85d72 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  margin-top: 4px;
+  box-shadow: 0 4px 24px rgba(201,72,91,0.3);
+}
+.btn-gen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform .5s;
+}
+.btn-gen:hover::before { transform: translateX(100%); }
+.btn-gen:hover { box-shadow: 0 6px 36px rgba(201,72,91,0.5); transform: translateY(-1px); }
+.btn-gen:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── RIGHT COLUMN ── */
+.right-col { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── PREVIEW CARD ── */
+.preview-card {
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-top {
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--rose);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.preview-label::before {
+  content: '◆';
+  font-size: 0.5rem;
+}
+
+.action-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sm {
+  background: transparent;
+  border: 1px solid rgba(245,240,232,0.15);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.5px;
+}
+.btn-sm:hover { border-color: var(--rose); color: #f5a0ac; }
+.btn-sm.post { border-color: rgba(201,72,91,0.4); color: var(--rose); }
+.btn-sm.post:hover { background: rgba(201,72,91,0.15); }
+.btn-sm.success { border-color: #22c55e; color: #86efac; }
+
+.article-body {
+  padding: 28px 28px 20px;
+  min-height: 200px;
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: var(--paper);
+  font-weight: 400;
+  white-space: pre-wrap;
+}
+
+.article-body.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  color: rgba(138,128,152,0.5);
+  min-height: 260px;
+}
+
+.empty-glyph {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-style: italic;
+  opacity: 0.2;
+  color: var(--rose);
+}
+
+.empty-hint {
+  font-size: 0.78rem;
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.5px;
+}
+
+/* loading */
+.spinner {
+  display: none;
+  padding: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.spinner.show { display: flex; }
+.spinner-ring {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--rose);
+  animation: spin-dot 1.2s infinite ease-in-out;
+}
+.spinner-ring:nth-child(2) { animation-delay:.15s; background: var(--gold); }
+.spinner-ring:nth-child(3) { animation-delay:.3s; background: var(--mist); }
+@keyframes spin-dot {
+  0%,80%,100%{ transform:scale(.6); opacity:.4; }
+  40%{ transform:scale(1.3); opacity:1; }
+}
+
+.article-footer {
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(245,240,232,0.06);
+  display: none;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.article-footer.show { display: flex; }
+.foot-stat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--mist);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.foot-stat b { color: var(--gold); font-weight: 500; }
+
+/* ── HASHTAGS ── */
+.hashtag-bar {
+  background: rgba(45,27,105,0.2);
+  border: 1px solid rgba(45,27,105,0.4);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: none;
+}
+.hashtag-bar.show { display: block; }
+.hashtag-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  color: #9b8ec4;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.hashtag-text {
+  font-size: 0.8rem;
+  color: #c4b8e8;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* ── IMAGE CARD ── */
+.image-card {
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.image-top {
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.image-label-txt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: #9b8ec4;
+  text-transform: uppercase;
+}
+.img-body { padding: 18px; }
+.img-placeholder {
+  width: 100%;
+  height: 200px;
+  background: rgba(255,255,255,0.03);
+  border: 2px dashed rgba(245,240,232,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: rgba(138,128,152,0.4);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+.img-placeholder-glyph { font-size: 2rem; opacity: 0.2; }
+.generated-img {
+  width: 100%;
+  border-radius: 12px;
+  display: none;
+  border: 1px solid rgba(245,240,232,0.1);
+}
+.img-prompt-note {
+  margin-top: 12px;
+  font-size: 0.68rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: rgba(138,128,152,0.6);
+  display: none;
+  line-height: 1.5;
+}
+.img-prompt-note b {
+  color: rgba(184,134,11,0.6);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* ── SCHEDULE INFO ── */
+.schedule-card {
+  background: rgba(40,28,5,0.8);
+  border: 1px solid rgba(184,134,11,0.35);
+  border-radius: 14px;
+  padding: 18px 22px;
+}
+.sched-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.sched-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sched-item {
+  background: rgba(184,134,11,0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.sched-day {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0d080;
+}
+.sched-time {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+/* ── HISTORY LOG ── */
+.log-section {
+  background: rgba(245,240,232,0.02);
+  border: 1px solid rgba(245,240,232,0.08);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: none;
+}
+.log-section.show { display: block; }
+.log-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  color: var(--mist);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.log-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.05);
+  font-size: 0.75rem;
+  animation: fadeIn .4s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+.log-entry:last-child { border-bottom: none; }
+.log-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+.log-text { color: var(--paper); opacity: .7; line-height: 1.5; }
+.log-time { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--mist); flex-shrink: 0; }
+
+/* ── ERROR ── */
+.err-box {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.78rem;
+  color: #fca5a5;
+  display: none;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ── POST SUCCESS ── */
+.post-success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 0.8rem;
+  color: #86efac;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.post-success.show { display: flex; }
+
+
+
+
+/* ── IMAGE UPLOAD ── */
+.img-dropzone {
+  position: relative;
+  border-radius: 12px;
+  transition: all .2s;
+}
+.img-dropzone.drag-over {
+  outline: 2px dashed var(--rose);
+  outline-offset: 4px;
+  background: rgba(201,72,91,0.05);
+}
+
+/* ── CONTENT PLAN ── */
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(245,240,232,0.08);
+  border-radius: 9px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.plan-item:hover {
+  border-color: var(--rose);
+  background: rgba(201,72,91,0.08);
+}
+.plan-item.done {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: default;
+  pointer-events: none;
+}
+.plan-date {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.plan-topic {
+  font-size: 0.78rem;
+  color: var(--paper);
+  flex: 1;
+  line-height: 1.3;
+}
+.plan-fmt {
+  font-size: 0.6rem;
+  color: var(--mist);
+  font-family: 'IBM Plex Mono', monospace;
+  white-space: nowrap;
+}
+.plan-done-btn {
+  background: transparent;
+  border: 1px solid rgba(245,240,232,0.15);
+  border-radius: 5px;
+  padding: 3px 7px;
+  font-size: 0.6rem;
+  color: var(--mist);
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.plan-done-btn:hover { border-color: var(--accent3); color: #86efac; }
+
+/* ── DEST BLOCKS ── */
+.dest-block { padding: 4px 0; }
+.dest-body label.field-label { color: rgba(245,240,232,0.8) !important; }
+.dest-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.dest-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.dest-toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.dest-toggle input { opacity: 0; width: 0; height: 0; }
+.dest-check {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(245,240,232,0.2);
+  border-radius: 20px;
+  transition: all .25s;
+}
+.dest-check::before {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  left: 2px; top: 2px;
+  background: var(--mist);
+  border-radius: 50%;
+  transition: all .25s;
+}
+.dest-toggle input:checked + .dest-check { background: rgba(201,72,91,0.3); border-color: var(--rose); }
+.dest-toggle input:checked + .dest-check::before { transform: translateX(16px); background: var(--rose); }
+.dest-body { padding-left: 46px; }
+.dest-divider {
+  height: 1px;
+  background: rgba(245,240,232,0.08);
+  margin: 10px 0;
+}
+
+
+/* ── EDITOR ── */
+.edit-mode-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(184,134,11,0.08);
+  border-top: 1px solid rgba(184,134,11,0.2);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.edit-mode-bar.show { display: flex; }
+.edit-mode-bar span { opacity: 0.7; }
+
+#articleEditor {
+  display: none;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--paper);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.85;
+  padding: 28px 28px 20px;
+  resize: none;
+  min-height: 260px;
+}
+#articleEditor.show { display: block; }
+
+.char-warning { color: var(--rose) !important; }
+
+/* ── MEMORY PANEL ── */
+.memory-card {
+  background: rgba(20,14,50,0.75);
+  border: 1px solid rgba(124,92,191,0.4);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.memory-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+.memory-toggle-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: #9b8ec4;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.memory-toggle-label::after {
+  content: '';
+  display: inline-block;
+  width: 60px;
+  height: 1px;
+  background: rgba(155,142,196,0.2);
+}
+.memory-arrow {
+  font-size: 0.7rem;
+  color: #9b8ec4;
+  transition: transform .3s;
+}
+.memory-arrow.open { transform: rotate(180deg); }
+.memory-body { display: none; margin-top: 18px; }
+.memory-body.show { display: block; }
+.memory-field { margin-bottom: 14px; }
+.memory-field label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: #9b8ec4;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.memory-field textarea, .memory-field input {
+  background: rgba(45,27,105,0.2);
+  border-color: rgba(45,27,105,0.5);
+  color: #d4ccf0;
+  font-size: 0.8rem;
+  margin-bottom: 0;
+}
+.memory-field textarea:focus, .memory-field input:focus {
+  border-color: #7c5cbf;
+  box-shadow: 0 0 0 3px rgba(124,92,191,0.15);
+}
+.memory-save-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(124,92,191,0.2);
+  border: 1px solid rgba(124,92,191,0.4);
+  border-radius: 8px;
+  color: #c4b8e8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 4px;
+}
+.memory-save-btn:hover {
+  background: rgba(124,92,191,0.35);
+  border-color: #9b8ec4;
+}
+.memory-saved {
+  text-align: center;
+  font-size: 0.65rem;
+  color: #86efac;
+  font-family: 'IBM Plex Mono', monospace;
+  margin-top: 8px;
+  display: none;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(201,72,91,0.2); border-radius: 3px; }
+
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; }
+  h1 { font-size: 1.7rem; }
+  .sched-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="eyebrow">// Персональный ИИ-автор</div>
+      <h1>Анастасия Булатова</h1>
+      <div class="subtitle">Промпт-инженер · Вайб-кодинг · AI-контент для ВКонтакте</div>
+    </div>
+    <div class="header-badge">
+      <div class="status-pill"><div class="dot-live"></div>CLAUDE API</div>
+      <div class="schedule-pill">2× В НЕДЕЛЮ</div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- LEFT: CONTROLS -->
+    <div>
+
+      <!-- Topic & format -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-label">Тема и формат</div>
+
+        <label class="field-label">Тема поста</label>
+        <input type="text" id="topicInput" placeholder="Вайб-кодинг: как я создаю приложения голосом…">
+
+        <label class="field-label">Формат подачи</label>
+        <div class="format-strip">
+          <button class="fmt-btn active" data-fmt="личная история с инсайтом" onclick="pickFmt(this)">✦ История</button>
+          <button class="fmt-btn" data-fmt="лайфхак дня с практическим советом" onclick="pickFmt(this)">⚡ Лайфхак</button>
+          <button class="fmt-btn" data-fmt="разбор инструмента по пунктам" onclick="pickFmt(this)">🔍 Разбор</button>
+          <button class="fmt-btn" data-fmt="провокационный вопрос с мнением автора" onclick="pickFmt(this)">🔥 Провокация</button>
+          <button class="fmt-btn" data-fmt="топ-5 или топ-3 с конкретикой" onclick="pickFmt(this)">📋 Топ-список</button>
+          <button class="fmt-btn" data-fmt="мини-урок с примером из практики" onclick="pickFmt(this)">🎓 Урок</button>
+        </div>
+
+        <label class="field-label">Доп. контекст (необязательно)</label>
+        <textarea id="ctxInput" placeholder="Упомяни конкретный инструмент, случай, деталь…"></textarea>
+      </div>
+
+      <!-- Memory / Profile -->
+      <div class="memory-card">
+        <div class="memory-toggle" onclick="toggleMemory()">
+          <div class="memory-toggle-label">🧠 Моя база знаний</div>
+          <span class="memory-arrow" id="memArrow">▼</span>
+        </div>
+        <div class="memory-body" id="memoryBody">
+          <div class="memory-field">
+            <label>Кто я</label>
+            <textarea id="mem_about" rows="2" placeholder="Промпт-инженер, вайбкодер, AI-энтузиаст...">Анастасия Булатова — промпт-инженер и вайбкодер. Создаю приложения и сайты через поток: идея, промпт, результат.</textarea>
+          </div>
+          <div class="memory-field">
+            <label>Мои инструменты</label>
+            <input type="text" id="mem_tools" value="Lovable, Replit, Cursor, Claude">
+          </div>
+          <div class="memory-field">
+            <label>Моя аудитория</label>
+            <input type="text" id="mem_audience" value="Люди, интересующиеся AI, вайбкодингом, промпт-инжинирингом">
+          </div>
+          <div class="memory-field">
+            <label>Мой стиль</label>
+            <input type="text" id="mem_style" value="Захватывающий, разный, живой. Для широкой аудитории, не на «ты»">
+          </div>
+          <div class="memory-field">
+            <label>Дополнительно (кейсы, факты, достижения)</label>
+            <textarea id="mem_extra" rows="3" placeholder="Любые детали, которые бот должен знать о тебе..."></textarea>
+          </div>
+          <button class="memory-save-btn" onclick="saveMemory()">💾 СОХРАНИТЬ В ПАМЯТЬ</button>
+          <div class="memory-saved" id="memorySaved">✅ Сохранено! Бот учтёт это в каждом посте.</div>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-label">Расписание публикаций</div>
+
+        <!-- Personal wall -->
+        <div class="dest-block">
+          <div class="dest-header">
+            <label class="dest-toggle">
+              <input type="checkbox" id="wallEnabled" checked onchange="toggleDest()">
+              <span class="dest-check"></span>
+            </label>
+            <span class="dest-title">👤 Личная страница</span>
+          </div>
+          <div class="dest-body" id="wallBody">
+            <label class="field-label" style="margin-top:10px">Дни</label>
+            <div class="days-row" id="wallDays">
+              <button class="day-btn" data-day="Пн" onclick="toggleDay(this,'wall')">ПН</button>
+              <button class="day-btn active" data-day="Вт" onclick="toggleDay(this,'wall')">ВТ</button>
+              <button class="day-btn" data-day="Ср" onclick="toggleDay(this,'wall')">СР</button>
+              <button class="day-btn" data-day="Чт" onclick="toggleDay(this,'wall')">ЧТ</button>
+              <button class="day-btn" data-day="Пт" onclick="toggleDay(this,'wall')">ПТ</button>
+              <button class="day-btn" data-day="Сб" onclick="toggleDay(this,'wall')">СБ</button>
+              <button class="day-btn" data-day="Вс" onclick="toggleDay(this,'wall')">ВС</button>
+            </div>
+            <label class="field-label">Время</label>
+            <select id="wallTime" onchange="updateScheduleDisplay()">
+              <option value="07:00">🌄 07:00 — раннее утро</option>
+              <option value="09:00" selected>🌅 09:00 — утро</option>
+              <option value="12:00">☀️ 12:00 — полдень</option>
+              <option value="15:00">🕒 15:00 — день</option>
+              <option value="19:00">🌆 19:00 — вечер</option>
+              <option value="21:00">🌙 21:00 — ночь</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="dest-divider"></div>
+
+        <!-- Group -->
+        <div class="dest-block">
+          <div class="dest-header">
+            <label class="dest-toggle">
+              <input type="checkbox" id="groupEnabled" onchange="toggleDest()">
+              <span class="dest-check"></span>
+            </label>
+            <span class="dest-title">👥 Группа / сообщество</span>
+          </div>
+          <div class="dest-body" id="groupBody" style="display:none">
+            <label class="field-label" style="margin-top:10px">Дни</label>
+            <div class="days-row" id="groupDays">
+              <button class="day-btn" data-day="Пн" onclick="toggleDay(this,'group')">ПН</button>
+              <button class="day-btn" data-day="Вт" onclick="toggleDay(this,'group')">ВТ</button>
+              <button class="day-btn" data-day="Ср" onclick="toggleDay(this,'group')">СР</button>
+              <button class="day-btn active" data-day="Чт" onclick="toggleDay(this,'group')">ЧТ</button>
+              <button class="day-btn" data-day="Пт" onclick="toggleDay(this,'group')">ПТ</button>
+              <button class="day-btn" data-day="Сб" onclick="toggleDay(this,'group')">СБ</button>
+              <button class="day-btn" data-day="Вс" onclick="toggleDay(this,'group')">ВС</button>
+            </div>
+            <label class="field-label">Время</label>
+            <select id="groupTime" onchange="updateScheduleDisplay()">
+              <option value="07:00">🌄 07:00 — раннее утро</option>
+              <option value="09:00">🌅 09:00 — утро</option>
+              <option value="12:00">☀️ 12:00 — полдень</option>
+              <option value="15:00">🕒 15:00 — день</option>
+              <option value="19:00" selected>🌆 19:00 — вечер</option>
+              <option value="21:00">🌙 21:00 — ночь</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- VK Tokens -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-label">VK API</div>
+        <div class="token-row">
+          <label class="field-label" style="margin-bottom:5px">Access Token</label>
+          <div class="token-field">
+            <input type="password" id="vkToken" placeholder="vk1.a.xxxxxxxxxxxxx" style="font-size:0.68rem" autocomplete="off">
+            <button onclick="toggleTokenVisibility()" id="tokenEye" style="background:transparent;border:1px solid rgba(245,240,232,0.15);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:0.75rem;flex-shrink:0" title="Показать/скрыть">👁</button>
+            <span class="token-tag">TOKEN</span>
+          </div>
+          <button onclick="clearToken()" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:5px 12px;color:#fca5a5;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;cursor:pointer;letter-spacing:1px;margin-bottom:10px;transition:all .2s" onmouseover="this.style.background='rgba(239,68,68,0.18)'" onmouseout="this.style.background='rgba(239,68,68,0.08)'">🗑 ОЧИСТИТЬ ТОКЕН</button>
+          <label class="field-label" style="margin-bottom:5px">Group ID (если группа)</label>
+          <div class="token-field">
+            <input type="text" id="groupId" placeholder="-123456789 или 123456789" style="font-size:0.68rem">
+            <span class="token-tag">GROUP</span>
+          </div>
+        </div>
+        <div style="font-size:0.63rem;font-family:'IBM Plex Mono',monospace;line-height:1.7;margin-top:4px;padding:10px 12px;background:rgba(184,134,11,0.06);border:1px solid rgba(184,134,11,0.15);border-radius:8px;">
+          <div style="color:var(--gold);margin-bottom:3px;letter-spacing:1px">🔒 БЕЗОПАСНОСТЬ</div>
+          <div style="color:var(--mist)">· Токен передаётся только напрямую в VK API<br>· Используй только нужные права: wall, offline<br>· Не передавай этот файл другим людям<br>· <a href="https://vk.com/settings?act=security" target="_blank" style="color:rgba(184,134,11,0.7);text-decoration:none">Отозвать токен</a> можно в настройках ВК<br>· Получить токен: <a href="https://vk.com/dev/implicit_flow_user" target="_blank" style="color:rgba(184,134,11,0.7);text-decoration:none">vk.com/dev/implicit_flow_user</a></div>
+        </div>
+      </div>
+
+      <!-- Telegram -->
+      <div class="card" style="margin-bottom:20px;border-color:rgba(41,182,246,0.3)">
+        <div class="card-label" style="color:#29b6f6">Telegram</div>
+        <div class="dest-block">
+          <div class="dest-header">
+            <label class="dest-toggle">
+              <input type="checkbox" id="tgEnabled" onchange="toggleTg()">
+              <span class="dest-check" style=""></span>
+            </label>
+            <span class="dest-title">✈️ Публиковать в Telegram</span>
+          </div>
+          <div id="tgBody" style="display:none">
+            <label class="field-label" style="margin-top:12px">Bot Token</label>
+            <div class="token-field">
+              <input type="password" id="tgToken" placeholder="7123456789:AAF..." style="font-size:0.68rem" autocomplete="off">
+              <button onclick="togglePassVis('tgToken','tgEye')" id="tgEye" style="background:transparent;border:1px solid rgba(245,240,232,0.15);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:0.75rem;flex-shrink:0">👁</button>
+              <span class="token-tag" style="border-color:rgba(41,182,246,0.3);color:#29b6f6">TG</span>
+            </div>
+            <label class="field-label">Chat ID канала / группы</label>
+            <div class="token-field">
+              <input type="text" id="tgChatId" placeholder="-100123456789" style="font-size:0.68rem;margin-bottom:0">
+              <span class="token-tag" style="border-color:rgba(41,182,246,0.3);color:#29b6f6">CHAT</span>
+            </div>
+            <div style="font-size:0.63rem;font-family:'IBM Plex Mono',monospace;line-height:1.7;margin-top:10px;padding:10px 12px;background:rgba(41,182,246,0.05);border:1px solid rgba(41,182,246,0.15);border-radius:8px;color:var(--mist)">
+              · Создать бота: <b style="color:#29b6f6">@BotFather</b> → /newbot<br>
+              · Добавь бота админом в канал/группу<br>
+              · Chat ID: перешли сообщение из канала боту <b style="color:#29b6f6">@userinfobot</b>
+            </div>
+            <button onclick="clearField('tgToken','tgEye')" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:5px 12px;color:#fca5a5;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;cursor:pointer;letter-spacing:1px;margin-top:10px;transition:all .2s">🗑 ОЧИСТИТЬ ТОКЕН</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAX -->
+      <div class="card" style="margin-bottom:20px;border-color:rgba(149,117,205,0.3)">
+        <div class="card-label" style="color:#9575cd">Макс (MAX)</div>
+        <div class="dest-block">
+          <div class="dest-header">
+            <label class="dest-toggle">
+              <input type="checkbox" id="maxEnabled" onchange="toggleMax()">
+              <span class="dest-check"></span>
+            </label>
+            <span class="dest-title">🟣 Публиковать в Макс</span>
+          </div>
+          <div id="maxBody" style="display:none">
+            <label class="field-label" style="margin-top:12px">Bot Token</label>
+            <div class="token-field">
+              <input type="password" id="maxToken" placeholder="токен из @PrimeBot" style="font-size:0.68rem" autocomplete="off">
+              <button onclick="togglePassVis('maxToken','maxEye')" id="maxEye" style="background:transparent;border:1px solid rgba(245,240,232,0.15);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:0.75rem;flex-shrink:0">👁</button>
+              <span class="token-tag" style="border-color:rgba(149,117,205,0.3);color:#9575cd">MAX</span>
+            </div>
+            <label class="field-label">Chat ID группы</label>
+            <div class="token-field">
+              <input type="text" id="maxChatId" placeholder="ID группы в Макс" style="font-size:0.68rem;margin-bottom:0">
+              <span class="token-tag" style="border-color:rgba(149,117,205,0.3);color:#9575cd">CHAT</span>
+            </div>
+            <div style="font-size:0.63rem;font-family:'IBM Plex Mono',monospace;line-height:1.7;margin-top:10px;padding:10px 12px;background:rgba(149,117,205,0.05);border:1px solid rgba(149,117,205,0.15);border-radius:8px;color:var(--mist)">
+              · Создать бота: <b style="color:#9575cd">@PrimeBot</b> → /newbot<br>
+              · Добавь бота админом в группу<br>
+              · API Макс совместим с Telegram Bot API
+            </div>
+            <button onclick="clearField('maxToken','maxEye')" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:5px 12px;color:#fca5a5;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;cursor:pointer;letter-spacing:1px;margin-top:10px;transition:all .2s">🗑 ОЧИСТИТЬ ТОКЕН</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Plan -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-label">📅 План постов — Март 2026</div>
+        <div id="planList" style="display:flex;flex-direction:column;gap:7px"></div>
+        <div style="font-size:0.62rem;color:var(--mist);font-family:'IBM Plex Mono',monospace;margin-top:12px;opacity:0.6">
+          Нажми на тему — она подставится в поле выше
+        </div>
+      </div>
+
+      <button class="btn-gen" id="mainBtn" onclick="runGenerate()">
+        Создать и опубликовать
+      </button>
+      <div class="err-box" id="errBox"></div>
+    </div>
+
+    <!-- RIGHT: OUTPUT -->
+    <div class="right-col">
+
+      <!-- Article preview -->
+      <div class="preview-card">
+        <div class="preview-top">
+          <div class="preview-label">Текст поста</div>
+          <div class="action-row">
+            <button class="btn-sm" id="editBtn" onclick="toggleEdit()" style="display:none">✏️ Редактировать</button>
+            <button class="btn-sm" id="copyBtn" onclick="copyText()">📋 Копировать</button>
+            <button class="btn-sm post" id="postBtn" onclick="postToVK()" style="display:none">🚀 В ВКонтакте</button>
+          </div>
+        </div>
+
+        <div class="spinner" id="spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+
+        <div class="article-body empty" id="articleBody">
+          <div class="empty-glyph">A</div>
+          <div class="empty-hint">Нажми «Создать и опубликовать»</div>
+        </div>
+        <textarea id="articleEditor" oninput="onEditorInput()" placeholder="Текст поста..."></textarea>
+
+        <div class="edit-mode-bar" id="editModeBar">
+          <span>✏️ РЕЖИМ РЕДАКТИРОВАНИЯ</span>
+          <span id="editCharCount" style="margin-left:auto">0 / 2000</span>
+        </div>
+
+        <div class="article-footer" id="footer">
+          <div class="foot-stat">✦ Символов: <b id="chars">0</b></div>
+          <div class="foot-stat">✦ Слов: <b id="words">0</b></div>
+          <div class="foot-stat" id="fmtStat">✦ Формат: <b id="fmtName">—</b></div>
+        </div>
+      </div>
+
+      <!-- Hashtags -->
+      <div class="hashtag-bar" id="hashBar">
+        <div class="hashtag-label">Хэштеги</div>
+        <div class="hashtag-text" id="hashText"></div>
+      </div>
+
+      <!-- Post success -->
+      <div class="post-success" id="postSuccess">
+        <span>✅</span>
+        <span id="postSuccessMsg">Пост опубликован в ВКонтакте!</span>
+      </div>
+
+      <!-- Image -->
+      <div class="image-card">
+        <div class="image-top">
+          <div class="image-label-txt">Изображение к посту</div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <button class="btn-sm" id="uploadImgBtn" onclick="document.getElementById('imgFileInput').click()">📁 Загрузить своё</button>
+            <button class="btn-sm" id="dlBtn" onclick="dlImage()" style="display:none">💾 Скачать</button>
+          </div>
+        </div>
+        <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+        <div class="img-body">
+          <!-- Upload drop zone -->
+          <div class="img-dropzone" id="imgDropzone"
+            ondragover="event.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="handleImageDrop(event)">
+            <div class="img-placeholder" id="imgPlaceholder">
+              <div class="img-placeholder-glyph">✦</div>
+              <span>Изображение появится здесь</span>
+            </div>
+            <img class="generated-img" id="genImg" alt="">
+          </div>
+
+          <!-- Prompt copy box -->
+          <div class="img-prompt-note" id="imgNote">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <b>IMAGE PROMPT — скопируй для Midjourney / Kling / Runway</b>
+              <button onclick="copyPrompt()" id="copyPromptBtn" style="background:transparent;border:1px solid rgba(124,92,191,0.3);border-radius:5px;padding:3px 8px;color:#9b8ec4;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='#9b8ec4'" onmouseout="this.style.borderColor='rgba(124,92,191,0.3)'">📋 Копировать</button>
+            </div>
+            <span id="imgPromptText"></span>
+          </div>
+
+          <!-- Upload status -->
+          <div id="uploadStatus" style="display:none;margin-top:10px;font-size:0.7rem;font-family:'IBM Plex Mono',monospace;color:#86efac;text-align:center">
+            ✅ Своё изображение загружено
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule display -->
+      <div class="schedule-card" id="schedCard">
+        <div class="sched-title">Расписание публикаций</div>
+        <div class="sched-grid" id="schedGrid">
+          <div class="sched-item"><div class="sched-day">Вторник</div><div class="sched-time">19:00</div></div>
+          <div class="sched-item"><div class="sched-day">Четверг</div><div class="sched-time">19:00</div></div>
+        </div>
+      </div>
+
+      <!-- Log -->
+      <div class="log-section" id="logSection">
+        <div class="log-title">Журнал действий</div>
+        <div id="logList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Save Toast -->
+<div id="saveToast" style="
+  position:fixed; bottom:24px; right:24px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.4);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #86efac;
+  letter-spacing: 1px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  animation: fadeIn .3s ease;
+">💾 Сохранено</div>
+
+<script>
+// ── STATE ──
+let selectedFmt = 'личная история с инсайтом';
+let currentText = '';
+let currentHashtags = '';
+let generatedImgUrl = null;
+
+// Format picker
+function pickFmt(btn) {
+  document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedFmt = btn.dataset.fmt;
+}
+
+// Toggle dest section visibility
+function toggleDest() {
+  const wallOn = document.getElementById('wallEnabled').checked;
+  const groupOn = document.getElementById('groupEnabled').checked;
+  document.getElementById('wallBody').style.display = wallOn ? 'block' : 'none';
+  document.getElementById('groupBody').style.display = groupOn ? 'block' : 'none';
+  updateScheduleDisplay();
+}
+
+// Day toggle - separate for wall and group
+function toggleDay(btn, dest) {
+  btn.classList.toggle('active');
+  updateScheduleDisplay();
+}
+
+const DAY_NAMES = {Пн:'Понедельник',Вт:'Вторник',Ср:'Среда',Чт:'Четверг',Пт:'Пятница',Сб:'Суббота',Вс:'Воскресенье'};
+
+function getActiveDays(containerId) {
+  return [...document.querySelectorAll(`#${containerId} .day-btn.active`)].map(b => b.dataset.day);
+}
+
+function updateScheduleDisplay() {
+  const wallOn = document.getElementById('wallEnabled').checked;
+  const groupOn = document.getElementById('groupEnabled').checked;
+  const wallTime = document.getElementById('wallTime')?.value || '09:00';
+  const groupTime = document.getElementById('groupTime')?.value || '19:00';
+  const wallDays = getActiveDays('wallDays');
+  const groupDays = getActiveDays('groupDays');
+  const grid = document.getElementById('schedGrid');
+  let items = [];
+  if (wallOn) {
+    wallDays.forEach(d => items.push(`<div class="sched-item"><div class="sched-day">${DAY_NAMES[d]||d}</div><div class="sched-time">👤 ${wallTime}</div></div>`));
+  }
+  if (groupOn) {
+    groupDays.forEach(d => items.push(`<div class="sched-item"><div class="sched-day">${DAY_NAMES[d]||d}</div><div class="sched-time">👥 ${groupTime}</div></div>`));
+  }
+  if (!items.length) {
+    grid.innerHTML = '<div style="font-size:0.75rem;color:var(--mist);font-style:italic;padding:4px">Включи хотя бы одно направление</div>';
+  } else {
+    grid.innerHTML = items.join('');
+  }
+}
+
+// ── LOGGING ──
+function addLog(icon, text) {
+  const sec = document.getElementById('logSection');
+  sec.classList.add('show');
+  const now = new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+  const el = document.createElement('div');
+  el.className = 'log-entry';
+  el.innerHTML = `<span class="log-icon">${icon}</span><span class="log-text">${text}</span><span class="log-time">${now}</span>`;
+  document.getElementById('logList').prepend(el);
+}
+
+function showErr(msg) {
+  const b = document.getElementById('errBox');
+  b.textContent = '⚠ ' + msg;
+  b.style.display = 'block';
+  setTimeout(()=>b.style.display='none', 7000);
+}
+
+// ── MAIN ──
+async function runGenerate() {
+  const topic = document.getElementById('topicInput').value.trim();
+  if (!topic) { showErr('Введи тему поста!'); return; }
+
+  const btn = document.getElementById('mainBtn');
+  btn.disabled = true;
+  btn.textContent = '⟳ Генерирую…';
+
+  // Reset UI
+  document.getElementById('postSuccess').classList.remove('show');
+  document.getElementById('hashBar').classList.remove('show');
+  document.getElementById('footer').classList.remove('show');
+  document.getElementById('postBtn').style.display = 'none';
+
+  const body = document.getElementById('articleBody');
+  body.className = 'article-body';
+  body.textContent = '';
+  document.getElementById('spinner').classList.add('show');
+  document.getElementById('genImg').style.display = 'none';
+  document.getElementById('imgPlaceholder').style.display = 'flex';
+  document.getElementById('dlBtn').style.display = 'none';
+  document.getElementById('imgNote').style.display = 'none';
+
+  addLog('✦', `Генерирую пост: «${topic}»`);
+
+  try {
+    await generateArticle(topic);
+    await generateImage(topic);
+
+    // Auto-post if token present
+    const token = document.getElementById('vkToken').value.trim();
+    const wallOn = document.getElementById('wallEnabled').checked;
+    const groupOn = document.getElementById('groupEnabled').checked;
+    const tgOn = document.getElementById('tgEnabled').checked;
+    const maxOn = document.getElementById('maxEnabled').checked;
+
+    let anyPosted = false;
+
+    if (token && (wallOn || groupOn)) {
+      addLog('🚀', 'Публикую в ВКонтакте…');
+      await postToVK();
+      anyPosted = true;
+    }
+
+    if (tgOn && document.getElementById('tgToken').value.trim()) {
+      try {
+        addLog('✈️', 'Публикую в Telegram…');
+        const msg = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
+        await postToTelegram(msg);
+        anyPosted = true;
+      } catch(e) {
+        showErr(e.message);
+        addLog('❌', 'Ошибка Telegram: ' + e.message);
+      }
+    }
+
+    if (maxOn && document.getElementById('maxToken').value.trim()) {
+      try {
+        addLog('🟣', 'Публикую в Макс…');
+        const msg = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
+        await postToMax(msg);
+        anyPosted = true;
+      } catch(e) {
+        showErr(e.message);
+        addLog('❌', 'Ошибка Макс: ' + e.message);
+      }
+    }
+
+    if (!anyPosted) {
+      document.getElementById('postBtn').style.display = 'flex';
+      addLog('💡', 'Токены не указаны — используй кнопку «В ВКонтакте» вручную');
+    }
+  } catch(e) {
+    showErr(e.message);
+    addLog('❌', 'Ошибка: ' + e.message);
+    body.className = 'article-body empty';
+    body.innerHTML = '<div class="empty-glyph">!</div><div class="empty-hint">Ошибка генерации</div>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Создать и опубликовать';
+    document.getElementById('spinner').classList.remove('show');
+  }
+}
+
+// ── ARTICLE ──
+async function generateArticle(topic) {
+  const ctx = document.getElementById('ctxInput').value;
+  const wallOn = document.getElementById('wallEnabled').checked;
+  const groupOn = document.getElementById('groupEnabled').checked;
+  const dest = wallOn && groupOn ? 'both' : groupOn ? 'group' : 'wall';
+
+  const system = `Ты — авторский голос Анастасии Булатовой: промпт-инженер, вайбкодер, AI-энтузиаст.
+Пиши от первого лица («я», «мне», «у меня»), по-русски, живо и захватывающе.
+Стиль каждого поста уникален — чередуй динамику: иногда быстро и дерзко, иногда вдумчиво, иногда с иронией.
+Строго до 2000 символов включая хэштеги.
+Формат поста: ${selectedFmt}.
+Аудитория: ${dest === 'group' ? 'подписчики тематического AI-сообщества' : 'друзья и подписчики личной страницы ВКонтакте'}.
+ВАЖНО: пиши для широкой аудитории — не обращайся на «ты» к конкретному человеку, говори как публичный автор.
+
+Инструменты Анастасии (используй когда уместно): Lovable, Replit, Cursor, Claude (осваивает сейчас).
+Вайбкодинг и вайбкодер — всегда одним словом, без дефиса.
+
+Заканчивай сильным утверждением или призывом.
+В самом конце добавь строку "===ХЭШТЕГИ===" и 5–7 хэштегов ВКонтакте (через пробел, с #).`;
+
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      system: system + getMemoryContext(),
+      messages: [{role:"user", content:`Тема: "${topic}"${ctx ? `\nКонтекст: ${ctx}` : ''}`}]
+    })
+  });
+  if (!resp.ok) throw new Error(`Claude API: ${resp.status}`);
+  const data = await resp.json();
+  const full = data.content.map(b=>b.text||'').join('');
+
+  const split = full.split('===ХЭШТЕГИ===');
+  currentText = split[0].trim();
+  currentHashtags = split[1]?.trim() || '';
+
+  document.getElementById('spinner').classList.remove('show');
+
+  // Typewriter
+  const body = document.getElementById('articleBody');
+  body.className = 'article-body';
+  body.textContent = '';
+  let i = 0;
+  await new Promise(res => {
+    const iv = setInterval(()=>{
+      body.textContent = currentText.slice(0,i);
+      i += 5;
+      if(i > currentText.length) {
+        body.textContent = currentText;
+        clearInterval(iv);
+        res();
+      }
+    }, 12);
+  });
+
+  // Stats
+  document.getElementById('chars').textContent = currentText.length.toLocaleString();
+  document.getElementById('words').textContent = currentText.split(/\s+/).filter(Boolean).length.toLocaleString();
+  document.getElementById('fmtName').textContent = selectedFmt.split(' ').slice(0,2).join(' ');
+  document.getElementById('footer').classList.add('show');
+
+  if (currentHashtags) {
+    document.getElementById('hashText').textContent = currentHashtags;
+    document.getElementById('hashBar').classList.add('show');
+  }
+
+  document.getElementById('editBtn').style.display = 'flex';
+  addLog('✅', `Пост готов (${currentText.length} симв.)`);
+}
+
+// ── IMAGE ──
+async function generateImage(topic) {
+  const pResp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 150,
+      messages: [{role:"user",content:`Write a vivid image generation prompt in English for a VK social post about "${topic}". Style: editorial digital art, cinematic lighting, modern tech aesthetic. Max 50 words, return only the prompt.`}]
+    })
+  });
+  const pData = await pResp.json();
+  const imgPrompt = pData.content.map(b=>b.text||'').join('').trim();
+
+  document.getElementById('imgPromptText').textContent = imgPrompt;
+  document.getElementById('imgNote').style.display = 'block';
+
+  // Try multiple free image generation services as fallback
+  const seed = Math.floor(Math.random() * 999999);
+  const encoded = encodeURIComponent(imgPrompt);
+  // Use picsum for placeholder while trying to generate
+  // Try flux model first, fallback to other providers
+  generatedImgUrl = `https://image.pollinations.ai/prompt/${encoded}?width=800&height=480&nologo=true&nofeed=true&seed=${seed}&model=flux-pro`;
+
+  const img = document.getElementById('genImg');
+  document.getElementById('imgPlaceholder').innerHTML = '<div class="spinner show" style="padding:30px"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div>';
+
+  img.onload = () => {
+    document.getElementById('imgPlaceholder').style.display = 'none';
+    img.style.display = 'block';
+    document.getElementById('dlBtn').style.display = 'flex';
+    addLog('🖼️', 'Изображение сгенерировано');
+  };
+  img.onerror = () => {
+    document.getElementById('imgPlaceholder').innerHTML = `<div style="font-size:0.7rem;text-align:center;color:var(--mist);padding:20px">Изображение генерируется...<br><a href="${generatedImgUrl}" target="_blank" style="color:var(--rose)">Открыть напрямую ↗</a></div>`;
+  };
+  img.src = generatedImgUrl;
+}
+
+// ── VK POST ──
+async function postToVK() {
+  const token = document.getElementById('vkToken').value.trim();
+  if (!token) { showErr('Введи VK Access Token!'); return; }
+  if (!currentText) { showErr('Сначала сгенерируй пост!'); return; }
+
+  const wallOn = document.getElementById('wallEnabled').checked;
+  const groupOn = document.getElementById('groupEnabled').checked;
+  const groupId = document.getElementById('groupId').value.trim();
+  const message = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
+
+  if (!wallOn && !groupOn) { showErr('Включи хотя бы одно направление публикации!'); return; }
+
+  const postToOwner = async (ownerId) => {
+    const params = new URLSearchParams({
+      owner_id: ownerId,
+      message,
+      access_token: token,
+      v: '5.131'
+    });
+    // Use JSONP-style via script tag to avoid CORS when opening as file://
+    return new Promise((resolve, reject) => {
+      const callbackName = 'vk_cb_' + Date.now();
+      params.append('callback', callbackName);
+      const script = document.createElement('script');
+      script.src = `https://api.vk.com/method/wall.post?${params}`;
+      window[callbackName] = (json) => {
+        document.head.removeChild(script);
+        delete window[callbackName];
+        if (json.error) reject(new Error(`VK: ${json.error.error_msg}`));
+        else resolve(json.response?.post_id);
+      };
+      script.onerror = () => reject(new Error('Не удалось подключиться к VK API'));
+      document.head.appendChild(script);
+    });
+  };
+
+  try {
+    document.getElementById('postBtn').disabled = true;
+    let results = [];
+
+    if (wallOn) {
+      const pid = await postToOwner('0');
+      addLog('✅', `Личная страница — опубликовано (post_id: ${pid})`);
+      results.push('личная страница');
+    }
+
+    if (groupOn && groupId) {
+      const gid = groupId.replace('-','');
+      const pid = await postToOwner('-' + gid);
+      addLog('✅', `Группа -${gid} — опубликовано (post_id: ${pid})`);
+      results.push('группа');
+    } else if (groupOn && !groupId) {
+      showErr('Укажи Group ID для публикации в группу!');
+    }
+
+    if (results.length) {
+      document.getElementById('postSuccessMsg').textContent = `✅ Опубликовано: ${results.join(' + ')}!`;
+      document.getElementById('postSuccess').classList.add('show');
+      document.getElementById('postBtn').style.display = 'none';
+    }
+
+  } catch(e) {
+    showErr(e.message);
+    addLog('❌', 'Ошибка публикации: ' + e.message);
+    document.getElementById('postBtn').disabled = false;
+  }
+}
+
+// ── TELEGRAM POST ──
+async function postToTelegram(message) {
+  const token = document.getElementById('tgToken').value.trim();
+  const chatId = document.getElementById('tgChatId').value.trim();
+  if (!token || !chatId) return;
+
+  const resp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    })
+  });
+  const json = await resp.json();
+  if (!json.ok) throw new Error(`Telegram: ${json.description}`);
+  addLog('✈️', `Опубликовано в Telegram (message_id: ${json.result?.message_id})`);
+  return json.result?.message_id;
+}
+
+// ── MAX POST ──
+async function postToMax(message) {
+  const token = document.getElementById('maxToken').value.trim();
+  const chatId = document.getElementById('maxChatId').value.trim();
+  if (!token || !chatId) return;
+
+  // MAX Bot API is compatible with Telegram Bot API
+  const resp = await fetch(`https://botapi.max.ru/sendMessage?access_token=${token}`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message
+    })
+  });
+  const json = await resp.json();
+  if (json.error) throw new Error(`Макс: ${json.error.message || json.error}`);
+  addLog('🟣', `Опубликовано в Макс`);
+  return true;
+}
+
+function toggleTg() {
+  document.getElementById('tgBody').style.display =
+    document.getElementById('tgEnabled').checked ? 'block' : 'none';
+}
+
+function toggleMax() {
+  document.getElementById('maxBody').style.display =
+    document.getElementById('maxEnabled').checked ? 'block' : 'none';
+}
+
+function togglePassVis(inputId, btnId) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+}
+
+function clearField(inputId, btnId) {
+  document.getElementById(inputId).value = '';
+  document.getElementById(inputId).type = 'password';
+  document.getElementById(btnId).textContent = '👁';
+  addLog('🔒', 'Токен очищен');
+}
+
+// ── UTILS ──
+// ── TOAST ──
+let toastTimer = null;
+function showSavedToast() {
+  const toast = document.getElementById('saveToast');
+  toast.style.display = 'flex';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.style.display = 'none', 2000);
+}
+
+// ── IMAGE UPLOAD ──
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  loadImageFile(file);
+}
+
+function handleImageDrop(event) {
+  event.preventDefault();
+  document.getElementById('imgDropzone').classList.remove('drag-over');
+  const file = event.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) return;
+  loadImageFile(file);
+}
+
+function loadImageFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = document.getElementById('genImg');
+    generatedImgUrl = e.target.result;
+    document.getElementById('imgPlaceholder').style.display = 'none';
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('uploadStatus').style.display = 'block';
+    document.getElementById('dlBtn').style.display = 'none'; // no download for uploaded
+    addLog('🖼️', `Загружено своё изображение: ${file.name}`);
+  };
+  reader.readAsDataURL(file);
+}
+
+function copyPrompt() {
+  const prompt = document.getElementById('imgPromptText').textContent;
+  if (!prompt) return;
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.getElementById('copyPromptBtn');
+    btn.textContent = '✅ Скопировано';
+    setTimeout(() => btn.textContent = '📋 Копировать', 2000);
+  });
+}
+
+function copyText() {
+  if (isEditMode) currentText = document.getElementById('articleEditor').value.trim();
+  if (!currentText) return;
+  const full = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
+  navigator.clipboard.writeText(full).then(() => {
+    const b = document.getElementById('copyBtn');
+    b.textContent = '✅ Скопировано';
+    b.classList.add('success');
+    setTimeout(()=>{ b.textContent='📋 Копировать'; b.classList.remove('success'); }, 2000);
+  });
+}
+
+function dlImage() {
+  if (!generatedImgUrl) return;
+  window.open(generatedImgUrl, '_blank');
+}
+
+// ── MEMORY ──
+function toggleMemory() {
+  const body = document.getElementById('memoryBody');
+  const arrow = document.getElementById('memArrow');
+  body.classList.toggle('show');
+  arrow.classList.toggle('open');
+}
+
+function getMemoryContext() {
+  const about = document.getElementById('mem_about')?.value || '';
+  const tools = document.getElementById('mem_tools')?.value || '';
+  const audience = document.getElementById('mem_audience')?.value || '';
+  const style = document.getElementById('mem_style')?.value || '';
+  const extra = document.getElementById('mem_extra')?.value || '';
+  return `
+
+БАЗА ЗНАНИЙ ОБ АВТОРЕ:
+Кто я: ${about}
+Инструменты: ${tools}
+Аудитория: ${audience}
+Стиль: ${style}${extra ? '\nДополнительно: ' + extra : ''}`;
+}
+
+function saveMemory() {
+  saveToStorage();
+  showSavedToast();
+  const saved = document.getElementById('memorySaved');
+  saved.style.display = 'block';
+  addLog('🧠', 'База знаний сохранена — бот учтёт это в следующих постах');
+  setTimeout(() => saved.style.display = 'none', 3000);
+}
+
+// ── EDITOR ──
+let isEditMode = false;
+
+function toggleEdit() {
+  isEditMode = !isEditMode;
+  const body = document.getElementById('articleBody');
+  const editor = document.getElementById('articleEditor');
+  const bar = document.getElementById('editModeBar');
+  const btn = document.getElementById('editBtn');
+
+  if (isEditMode) {
+    editor.value = currentText;
+    body.style.display = 'none';
+    editor.classList.add('show');
+    bar.classList.add('show');
+    btn.textContent = '✅ Готово';
+    btn.style.borderColor = 'var(--accent3)';
+    btn.style.color = '#86efac';
+    updateEditCounter();
+  } else {
+    currentText = editor.value.trim();
+    body.style.display = 'block';
+    body.textContent = currentText;
+    editor.classList.remove('show');
+    bar.classList.remove('show');
+    btn.textContent = '✏️ Редактировать';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    // update stats
+    document.getElementById('chars').textContent = currentText.length.toLocaleString();
+    document.getElementById('words').textContent = currentText.split(/\s+/).filter(Boolean).length.toLocaleString();
+    addLog('✏️', `Текст отредактирован (${currentText.length} симв.)`);
+  }
+}
+
+function onEditorInput() {
+  currentText = document.getElementById('articleEditor').value;
+  updateEditCounter();
+}
+
+function updateEditCounter() {
+  const len = document.getElementById('articleEditor').value.length;
+  const el = document.getElementById('editCharCount');
+  el.textContent = `${len} / 2000`;
+  el.className = len > 2000 ? 'char-warning' : '';
+}
+
+// ── CONTENT PLAN ──
+const contentPlan = [
+  { date: "10 мар", topic: "Обо мне: промпт-инженер и вайбкодер", fmt: "история", done: false },
+  { date: "12 мар", topic: "Что такое вайбкодинг и почему это меняет всё", fmt: "провокация", done: false },
+  { date: "17 мар", topic: "Мои инструменты: Lovable, Replit, Cursor, Claude — честный разбор", fmt: "разбор", done: false },
+  { date: "19 мар", topic: "Как я написала первый промпт и что из этого вышло", fmt: "история", done: false },
+  { date: "24 мар", topic: "Топ-5 промптов которые я использую каждый день", fmt: "топ-список", done: false },
+  { date: "26 мар", topic: "AI — угроза или суперсила? Моё честное мнение", fmt: "провокация", done: false },
+  { date: "31 мар", topic: "Чему меня научил март: кейсы и провалы", fmt: "история", done: false },
+];
+
+const fmtMap = {
+  'история': 'личная история с инсайтом',
+  'провокация': 'провокационный вопрос с мнением автора',
+  'разбор': 'разбор инструмента по пунктам',
+  'топ-список': 'топ-5 или топ-3 с конкретикой',
+  'лайфхак': 'лайфхак дня с практическим советом',
+  'урок': 'мини-урок с примером из практики',
+};
+
+function renderPlan() {
+  const list = document.getElementById('planList');
+  if (!list) return;
+  list.innerHTML = contentPlan.map((item, i) => `
+    <div class="plan-item ${item.done ? 'done' : ''}" onclick="selectPlanItem(${i})">
+      <span class="plan-date">${item.date}</span>
+      <span class="plan-topic">${item.topic}</span>
+      <span class="plan-fmt">${item.fmt}</span>
+      <button class="plan-done-btn" onclick="markDone(event,${i})">${item.done ? '✅' : '○'}</button>
+    </div>
+  `).join('');
+}
+
+function selectPlanItem(i) {
+  const item = contentPlan[i];
+  if (item.done) return;
+  document.getElementById('topicInput').value = item.topic;
+  // Auto-select matching format button
+  const fmt = fmtMap[item.fmt];
+  if (fmt) {
+    document.querySelectorAll('.fmt-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.fmt === fmt);
+      if (b.dataset.fmt === fmt) selectedFmt = fmt;
+    });
+  }
+  // Scroll to top on mobile
+  document.getElementById('topicInput').scrollIntoView({behavior:'smooth', block:'center'});
+  addLog('📅', `Тема из плана: «${item.topic}»`);
+}
+
+function markDone(e, i) {
+  e.stopPropagation();
+  contentPlan[i].done = !contentPlan[i].done;
+  renderPlan();
+  saveToStorage();
+  addLog(contentPlan[i].done ? '✅' : '↩️',
+    contentPlan[i].done ? `Отмечено как опубликовано: «${contentPlan[i].topic}»` : `Возвращено в план`);
+}
+
+// ── TOKEN SECURITY ──
+function toggleTokenVisibility() {
+  const input = document.getElementById('vkToken');
+  const eye = document.getElementById('tokenEye');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eye.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    eye.textContent = '👁';
+  }
+}
+
+function clearToken() {
+  document.getElementById('vkToken').value = '';
+  document.getElementById('vkToken').type = 'password';
+  document.getElementById('tokenEye').textContent = '👁';
+  addLog('🔒', 'Токен очищен из памяти');
+}
+
+// Auto-clear token on page unload
+window.addEventListener('beforeunload', () => {
+  document.getElementById('vkToken').value = '';
+});
+
+// ── LOCAL STORAGE SAVE / LOAD ──
+const LS_KEY = 'anastasia_bot_v1';
+
+function saveToStorage() {
+  try {
+    const data = {
+      mem_about: document.getElementById('mem_about')?.value || '',
+      mem_tools: document.getElementById('mem_tools')?.value || '',
+      mem_audience: document.getElementById('mem_audience')?.value || '',
+      mem_style: document.getElementById('mem_style')?.value || '',
+      mem_extra: document.getElementById('mem_extra')?.value || '',
+      wallTime: document.getElementById('wallTime')?.value || '09:00',
+      groupTime: document.getElementById('groupTime')?.value || '19:00',
+      wallEnabled: document.getElementById('wallEnabled')?.checked || false,
+      groupEnabled: document.getElementById('groupEnabled')?.checked || false,
+      groupId: document.getElementById('groupId')?.value || '',
+      tgEnabled: document.getElementById('tgEnabled')?.checked || false,
+      tgChatId: document.getElementById('tgChatId')?.value || '',
+      maxEnabled: document.getElementById('maxEnabled')?.checked || false,
+      maxChatId: document.getElementById('maxChatId')?.value || '',
+      planDone: contentPlan.map(p => p.done),
+      wallDays: getActiveDays('wallDays'),
+      groupDays: getActiveDays('groupDays'),
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    showSavedToast();
+  } catch(e) { console.warn('Storage save failed:', e); }
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    // Memory fields
+    if (data.mem_about) document.getElementById('mem_about').value = data.mem_about;
+    if (data.mem_tools) document.getElementById('mem_tools').value = data.mem_tools;
+    if (data.mem_audience) document.getElementById('mem_audience').value = data.mem_audience;
+    if (data.mem_style) document.getElementById('mem_style').value = data.mem_style;
+    if (data.mem_extra) document.getElementById('mem_extra').value = data.mem_extra;
+
+    // Schedule
+    if (data.wallTime) document.getElementById('wallTime').value = data.wallTime;
+    if (data.groupTime) document.getElementById('groupTime').value = data.groupTime;
+    if (data.groupId) document.getElementById('groupId').value = data.groupId;
+    if (data.tgChatId) document.getElementById('tgChatId').value = data.tgChatId;
+    if (data.maxChatId) document.getElementById('maxChatId').value = data.maxChatId;
+    if (data.tgEnabled) { document.getElementById('tgEnabled').checked = true; toggleTg(); }
+    if (data.maxEnabled) { document.getElementById('maxEnabled').checked = true; toggleMax(); }
+
+    // Destinations
+    if (data.wallEnabled !== undefined) {
+      document.getElementById('wallEnabled').checked = data.wallEnabled;
+    }
+    if (data.groupEnabled !== undefined) {
+      document.getElementById('groupEnabled').checked = data.groupEnabled;
+    }
+
+    // Days
+    if (data.wallDays) {
+      document.querySelectorAll('#wallDays .day-btn').forEach(btn => {
+        btn.classList.toggle('active', data.wallDays.includes(btn.dataset.day));
+      });
+    }
+    if (data.groupDays) {
+      document.querySelectorAll('#groupDays .day-btn').forEach(btn => {
+        btn.classList.toggle('active', data.groupDays.includes(btn.dataset.day));
+      });
+    }
+
+    // Plan done states
+    if (data.planDone) {
+      data.planDone.forEach((done, i) => {
+        if (contentPlan[i]) contentPlan[i].done = done;
+      });
+    }
+
+    addLog('💾', 'Данные восстановлены из памяти браузера');
+  } catch(e) { console.warn('Storage load failed:', e); }
+}
+
+// Auto-save on any input change
+document.addEventListener('change', saveToStorage);
+document.addEventListener('input', saveToStorage);
+
+// init schedule
+loadFromStorage();
+updateScheduleDisplay();
+toggleDest();
+renderPlan();
+</script>
+</body>
+</html>
