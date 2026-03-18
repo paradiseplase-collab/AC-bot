@@ -14,10 +14,7 @@ const FUNNEL_STAGES = {
 
 async function sendMessage(chatId, text) {
   console.log("Sending to chatId:", chatId);
-  
   const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
-  
-  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&user_id=${userId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -25,7 +22,6 @@ async function sendMessage(chatId, text) {
       text: text
     }),
   });
-  
   const result = await response.json();
   console.log("Send result:", JSON.stringify(result).substring(0, 150));
   return result;
@@ -55,32 +51,32 @@ async function generateWarmUpContent(userTask, userAudience) {
   return data.content?.[0]?.text || "Интересная задача! Давай разберём её вместе.";
 }
 
-async function handleFunnelStep(userId, userText, state) {
+async function handleFunnelStep(chatId, userText, state) {
   const stage = state.stage || FUNNEL_STAGES.START;
   console.log("Stage:", stage, "Text:", userText);
 
-  if (stage === FUNNEL_STAGES.START || !stage) {
-    userStates[userId] = { stage: FUNNEL_STAGES.QUALIFY_TASK };
-    await sendMessage(userId,
+  if (stage === FUNNEL_STAGES.START) {
+    userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_TASK };
+    await sendMessage(chatId,
       "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?\n\n1️⃣ Нужен контент для соцсетей\n2️⃣ Хочу настроить AI-бота\n3️⃣ Хочу больше клиентов через контент\n4️⃣ Просто изучаю AI-инструменты"
     );
     return;
   }
 
   if (stage === FUNNEL_STAGES.QUALIFY_TASK) {
-    userStates[userId] = { stage: FUNNEL_STAGES.QUALIFY_AUDIENCE, task: userText };
-    await sendMessage(userId,
-      `Понятно — хорошая задача 💪\n\nА кто твоя аудитория?\n\n1️⃣ B2B — компании и предприниматели\n2️⃣ B2C — частные люди\n3️⃣ Эксперты и специалисты\n4️⃣ Интернет-магазин / продукт`
+    userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_AUDIENCE, task: userText };
+    await sendMessage(chatId,
+      "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?\n\n1️⃣ B2B — компании и предприниматели\n2️⃣ B2C — частные люди\n3️⃣ Эксперты и специалисты\n4️⃣ Интернет-магазин / продукт"
     );
     return;
   }
 
   if (stage === FUNNEL_STAGES.QUALIFY_AUDIENCE) {
-    userStates[userId] = { ...userStates[userId], stage: FUNNEL_STAGES.COLLECT_CONTACT, audience: userText };
-    await sendMessage(userId, "Отлично! Дай секунду, подготовлю кое-что полезное... 🧠✨");
-    const warmUpText = await generateWarmUpContent(userStates[userId].task, userText);
-    await sendMessage(userId, warmUpText);
-    await sendMessage(userId,
+    userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.COLLECT_CONTACT, audience: userText };
+    await sendMessage(chatId, "Отлично! Дай секунду, подготовлю кое-что полезное... 🧠✨");
+    const warmUpText = await generateWarmUpContent(userStates[chatId].task, userText);
+    await sendMessage(chatId, warmUpText);
+    await sendMessage(chatId,
       "Если хочешь разобрать твою ситуацию подробнее — напиши имя и контакт, свяжусь лично 🤝\n\nИли напиши «не сейчас» 😊"
     );
     return;
@@ -88,22 +84,22 @@ async function handleFunnelStep(userId, userText, state) {
 
   if (stage === FUNNEL_STAGES.COLLECT_CONTACT) {
     if (userText.toLowerCase().includes("не сейчас")) {
-      userStates[userId] = { ...userStates[userId], stage: FUNNEL_STAGES.DONE };
-      await sendMessage(userId,
+      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE };
+      await sendMessage(chatId,
         "Хорошо, без давления 😊\n\nМой AI-инструмент:\n👉 https://lucky-tartufo-0b2313.netlify.app\n\nПиши если появятся вопросы! ✨"
       );
     } else {
-      userStates[userId] = { ...userStates[userId], stage: FUNNEL_STAGES.DONE, contact: userText };
-      console.log("NEW LEAD:", { userId, task: userStates[userId].task, contact: userText });
-      await sendMessage(userId,
+      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
+      console.log("NEW LEAD:", { chatId, task: userStates[chatId].task, contact: userText });
+      await sendMessage(chatId,
         "Записала! ✅\n\nСвяжусь в течение 24 часов 🕐\n\n👉 https://lucky-tartufo-0b2313.netlify.app"
       );
     }
     return;
   }
 
-  userStates[userId] = { stage: FUNNEL_STAGES.START };
-  await handleFunnelStep(userId, userText, { stage: FUNNEL_STAGES.START });
+  userStates[chatId] = { stage: FUNNEL_STAGES.START };
+  await handleFunnelStep(chatId, userText, { stage: FUNNEL_STAGES.START });
 }
 
 async function registerWebhook() {
@@ -116,36 +112,38 @@ async function registerWebhook() {
 }
 
 exports.handler = async (event) => {
-  if (event.httpMethod === "GET" && event.queryStringParameters?.register) {
+  if (event.httpMethod === "GET" && event.queryStringParameters && event.queryStringParameters.register) {
     const result = await registerWebhook();
     return { statusCode: 200, body: JSON.stringify(result) };
   }
 
   if (event.httpMethod === "GET") {
-    return { statusCode: 200, body: "Max Webhook is alive ✅" };
+    return { statusCode: 200, body: "Max Webhook is alive" };
   }
 
   try {
     const update = JSON.parse(event.body);
     console.log("Update:", JSON.stringify(update).substring(0, 300));
 
-    let userId, text;
+    var chatId = null;
+    var text = "";
 
     if (update.update_type === "message_created") {
-      // recipient.user_id — это ID пользователя в диалоге с ботом
-      userId = update.message?.recipient?.chat_id;
-      text = update.message?.body?.text || "";
+      chatId = update.message.recipient.chat_id;
+      text = update.message.body.text || "";
     }
 
-    console.log("userId:", userId, "text:", text);
+    console.log("chatId:", chatId, "text:", text);
 
-    if (!userId) return { statusCode: 200, body: "ok" };
-
-    if (text === "/start" || !userStates[userId]) {
-      userStates[userId] = { stage: FUNNEL_STAGES.START };
+    if (!chatId) {
+      return { statusCode: 200, body: "ok" };
     }
 
-    await handleFunnelStep(userId, text, userStates[userId] || {});
+    if (text === "/start" || !userStates[chatId]) {
+      userStates[chatId] = { stage: FUNNEL_STAGES.START };
+    }
+
+    await handleFunnelStep(chatId, text, userStates[chatId]);
     return { statusCode: 200, body: "ok" };
   } catch (error) {
     console.error("Error:", error.message);
