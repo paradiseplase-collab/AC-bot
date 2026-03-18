@@ -13,13 +13,12 @@ const FUNNEL_STAGES = {
 };
 
 async function sendMessage(userId, text) {
-  console.log("Sending message to userId:", userId);
+  console.log("Sending to userId:", userId);
   
-  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}`, {
+  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&user_id=${userId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      recipient: { user_id: Number(userId) },
       type: "text",
       text: text
     }),
@@ -131,8 +130,8 @@ exports.handler = async (event) => {
     let userId, text;
 
     if (update.update_type === "message_created") {
-      // Отправляем ответ отправителю (sender)
-      userId = update.message?.sender?.user_id;
+      // recipient.user_id — это ID пользователя в диалоге с ботом
+      userId = update.message?.recipient?.user_id;
       text = update.message?.body?.text || "";
     }
 
