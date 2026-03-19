@@ -17,29 +17,29 @@ const FUNNEL_STAGES = {
 async function sendMessage(chatId, text, buttons = null) {
   console.log("Sending to chatId:", chatId);
 
-  const body = { text: text };
+  const body = {
+    recipient: { chat_id: chatId },
+    type: "text",
+    text: text
+  };
 
   if (buttons) {
     body.attachments = [{
       type: "inline_keyboard",
       payload: {
-        buttons: buttons.map(row => row.map(btn => ({
-          type: "callback",
-          text: btn.text,
-          payload: btn.payload
-        })))
+        buttons: buttons
       }
     }];
   }
 
-  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
+  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
   const result = await response.json();
-  console.log("Send result:", JSON.stringify(result).substring(0, 1000));
+  console.log("Send result full:", JSON.stringify(result));
   return result;
 }
 
@@ -89,10 +89,10 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?",
       [
-        [{ text: "📝 Контент для соцсетей", payload: "Нужен контент для соцсетей" }],
-        [{ text: "🤖 Настроить AI-бота", payload: "Хочу настроить AI-бота" }],
-        [{ text: "📈 Больше клиентов через контент", payload: "Хочу больше клиентов через контент" }],
-        [{ text: "💡 Изучаю AI-инструменты", payload: "Просто изучаю AI-инструменты" }]
+        [{ type: "callback", text: "📝 Контент для соцсетей", payload: "Нужен контент для соцсетей" }],
+        [{ type: "callback", text: "🤖 Настроить AI-бота", payload: "Хочу настроить AI-бота" }],
+        [{ type: "callback", text: "📈 Больше клиентов через контент", payload: "Хочу больше клиентов через контент" }],
+        [{ type: "callback", text: "💡 Изучаю AI-инструменты", payload: "Просто изучаю AI-инструменты" }]
       ]
     );
     return;
@@ -103,10 +103,10 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?",
       [
-        [{ text: "👔 B2B — компании и предприниматели", payload: "B2B — компании и предприниматели" }],
-        [{ text: "👤 B2C — частные люди", payload: "B2C — частные люди" }],
-        [{ text: "🎓 Эксперты и специалисты", payload: "Эксперты и специалисты" }],
-        [{ text: "🛍 Интернет-магазин / продукт", payload: "Интернет-магазин / продукт" }]
+        [{ type: "callback", text: "👔 B2B — компании и предприниматели", payload: "B2B — компании и предприниматели" }],
+        [{ type: "callback", text: "👤 B2C — частные люди", payload: "B2C — частные люди" }],
+        [{ type: "callback", text: "🎓 Эксперты и специалисты", payload: "Эксперты и специалисты" }],
+        [{ type: "callback", text: "🛍 Интернет-магазин / продукт", payload: "Интернет-магазин / продукт" }]
       ]
     );
     return;
@@ -120,8 +120,8 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Хочешь разобрать твою ситуацию подробнее?",
       [
-        [{ text: "📞 Хочу консультацию", payload: "Хочу консультацию" }],
-        [{ text: "Не сейчас", payload: "не сейчас" }]
+        [{ type: "callback", text: "📞 Хочу консультацию", payload: "Хочу консультацию" }],
+        [{ type: "callback", text: "Не сейчас", payload: "не сейчас" }]
       ]
     );
     return;
