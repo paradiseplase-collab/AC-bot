@@ -1,60 +1,46 @@
-// ============================================
-// Max Bot Webhook — Анастасия Булатова
-// Воронка продаж с AI-копирайтером
-// ============================================
-// ИНСТРУКЦИЯ:
-// 1. Замени YOUR_MAX_BOT_TOKEN на свой токен
-// 2. Замени YOUR_CLAUDE_API_KEY на свой ключ Claude
-// 3. Загрузи в папку netlify/functions/
-// ============================================
-
 const MAX_BOT_TOKEN = process.env.MAX_BOT_TOKEN || "YOUR_MAX_BOT_TOKEN";
 const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY || "YOUR_CLAUDE_API_KEY";
-const MAX_API_BASE = "https://botapi.max.ru";
+const WEBHOOK_URL = "https://lucky-tartufo-0b2313.netlify.app/.netlify/functions/max-webhook";
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzCGfxRbd_xFWNZVetHR8cFl-0OMN_g3PAnskPWlXt51YezRr4vE_Kgl8MkyS2i-ZCK/exec";
 
-// Хранилище состояний пользователей (в памяти)
-// Для продакшена замени на базу данных (Netlify DB, Supabase и т.д.)
 const userStates = {};
 
-// ============================================
-// ЭТАПЫ ВОРОНКИ
-// ============================================
 const FUNNEL_STAGES = {
   START: "start",
   QUALIFY_TASK: "qualify_task",
   QUALIFY_AUDIENCE: "qualify_audience",
-  QUALIFY_BUDGET: "qualify_budget",
-  WARM_UP: "warm_up",
   COLLECT_CONTACT: "collect_contact",
-  OFFER: "offer",
   DONE: "done",
 };
 
-// ============================================
-// ОТПРАВКА СООБЩЕНИЯ В MAX
-// ============================================
-async function sendMessage(chatId, text, keyboard = null) {
-  const body = {
-    chat_id: chatId,
-    text: text,
-  };
-
-  if (keyboard) {
-    body.reply_markup = { keyboard: keyboard, one_time_keyboard: true };
-  }
-
-  const response = await fetch(`${MAX_API_BASE}/sendMessage?access_token=${MAX_BOT_TOKEN}`, {
+async function sendMessage(chatId, text) {
+  console.log("Sending to chatId:", chatId);
+  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      type: "text",
+      text: text
+    }),
   });
-
-  return response.json();
+  const result = await response.json();
+  console.log("Send result:", JSON.stringify(result).substring(0, 150));
+  return result;
 }
 
-// ============================================
-// ГЕНЕРАЦИЯ КОНТЕНТА ЧЕРЕЗ CLAUDE (ПРОГРЕВ)
-// ============================================
+async function saveToSheets(chatId, task, audience, contact) {
+  try {
+    await fetch(SHEETS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chatId, task, audience, contact })
+    });
+    console.log("Saved to Google Sheets:", contact);
+  } catch (e) {
+    console.error("Sheets error:", e.message);
+  }
+}
+
 async function generateWarmUpContent(userTask, userAudience) {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -65,212 +51,117 @@ async function generateWarmUpContent(userTask, userAudience) {
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      messages: [
-        {
-          role: "user",
-          content: `Ты — Анастасия Булатова, промпт-инженер и AI-эксперт по контенту для ВКонтакте и Max.
-
-Пользователь написал тебе в бот. Его задача: "${userTask}". Его аудитория: "${userAudience}".
-
-Напиши короткий (3-4 абзаца) полезный пост-прогрев в твоём стиле:
-- Живой, личный тон
-- Конкретный совет по его задаче
-- В конце — мягкий намёк, что ты помогаешь с такими задачами
-- Без продажи в лоб
-- Без хэштегов
-
-Пиши как будто это личное сообщение, не пост.`,
-        },
-      ],
+      max_tokens: 800,
+      messages: [{
+        role: "user",
+        content: `Ты — Анастасия Булатова, промпт-инженер и AI-эксперт.
+Задача пользователя: "${userTask}". Его аудитория: "${userAudience}".
+Напиши короткий полезный совет (3 абзаца) в живом личном стиле.
+В конце мягко намекни что помогаешь с такими задачами. Без хэштегов.`
+      }],
     }),
   });
-
   const data = await response.json();
   return data.content?.[0]?.text || "Интересная задача! Давай разберём её вместе.";
 }
 
-// ============================================
-// ОБРАБОТКА ЭТАПОВ ВОРОНКИ
-// ============================================
 async function handleFunnelStep(chatId, userText, state) {
   const stage = state.stage || FUNNEL_STAGES.START;
+  console.log("Stage:", stage, "Text:", userText);
 
-  // ЭТАП 1: ПРИВЕТСТВИЕ
   if (stage === FUNNEL_STAGES.START) {
     userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_TASK };
-    await sendMessage(
-      chatId,
-      `Привет! 👋 Я Анастасия Булатова — помогаю экспертам и бизнесу создавать контент с помощью AI.
-
-Расскажи, с чем хочешь разобраться? Выбери или напиши своё:`,
-      [
-        [{ text: "📝 Нужен контент для соцсетей" }],
-        [{ text: "🤖 Хочу настроить AI-бота" }],
-        [{ text: "📈 Хочу больше клиентов через контент" }],
-        [{ text: "💡 Просто изучаю AI-инструменты" }],
-      ]
+    await sendMessage(chatId,
+      "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?\n\n1️⃣ Нужен контент для соцсетей\n2️⃣ Хочу настроить AI-бота\n3️⃣ Хочу больше клиентов через контент\n4️⃣ Просто изучаю AI-инструменты"
     );
     return;
   }
 
-  // ЭТАП 2: КВАЛИФИКАЦИЯ — ЗАДАЧА
   if (stage === FUNNEL_STAGES.QUALIFY_TASK) {
-    userStates[chatId] = {
-      stage: FUNNEL_STAGES.QUALIFY_AUDIENCE,
-      task: userText,
-    };
-    await sendMessage(
-      chatId,
-      `Понятно, "${userText}" — хорошая задача 💪
-
-А кто твоя аудитория? Кому ты продаёшь или для кого пишешь?`,
-      [
-        [{ text: "👔 B2B — компании и предприниматели" }],
-        [{ text: "👤 B2C — частные люди" }],
-        [{ text: "🎓 Эксперты и специалисты" }],
-        [{ text: "🛍 Интернет-магазин / продукт" }],
-      ]
+    userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_AUDIENCE, task: userText };
+    await sendMessage(chatId,
+      "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?\n\n1️⃣ B2B — компании и предприниматели\n2️⃣ B2C — частные люди\n3️⃣ Эксперты и специалисты\n4️⃣ Интернет-магазин / продукт"
     );
     return;
   }
 
-  // ЭТАП 3: КВАЛИФИКАЦИЯ — АУДИТОРИЯ
   if (stage === FUNNEL_STAGES.QUALIFY_AUDIENCE) {
-    userStates[chatId] = {
-      ...userStates[chatId],
-      stage: FUNNEL_STAGES.WARM_UP,
-      audience: userText,
-    };
-
-    await sendMessage(chatId, `Отлично! Дай мне секунду, подготовлю кое-что полезное специально для тебя... 🧠✨`);
-
-    // Генерируем прогревающий контент через Claude
-    const warmUpText = await generateWarmUpContent(
-      userStates[chatId].task,
-      userText
-    );
-
-    userStates[chatId].stage = FUNNEL_STAGES.COLLECT_CONTACT;
-
+    userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.COLLECT_CONTACT, audience: userText };
+    await sendMessage(chatId, "Отлично! Дай секунду, подготовлю кое-что полезное... 🧠✨");
+    const warmUpText = await generateWarmUpContent(userStates[chatId].task, userText);
     await sendMessage(chatId, warmUpText);
-
-    setTimeout(async () => {
-      await sendMessage(
-        chatId,
-        `Кстати, я работаю с несколькими клиентами индивидуально 🤝
-
-Если хочешь разобрать твою ситуацию подробнее — оставь имя и контакт (телефон или email), я напишу лично.
-
-Или просто напиши "не сейчас" — и я пришлю полезные материалы 😊`,
-        [
-          [{ text: "📞 Хочу консультацию" }],
-          [{ text: "📚 Пришли материалы" }],
-          [{ text: "Не сейчас" }],
-        ]
-      );
-    }, 2000);
+    await sendMessage(chatId,
+      "Если хочешь разобрать твою ситуацию подробнее — напиши имя и контакт, свяжусь лично 🤝\n\nИли напиши «не сейчас» 😊"
+    );
     return;
   }
 
-  // ЭТАП 4: СБОР КОНТАКТА
   if (stage === FUNNEL_STAGES.COLLECT_CONTACT) {
-    if (userText === "Не сейчас" || userText === "📚 Пришли материалы") {
+    if (userText.toLowerCase().includes("не сейчас")) {
       userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE };
-      await sendMessage(
-        chatId,
-        `Хорошо, без давления 😊
-
-Вот мои бесплатные материалы:
-📌 Как писать посты с AI — https://lucky-tartufo-0b2313.netlify.app
-📌 Напиши мне в любое время, если появятся вопросы
-
-Удачи с контентом! ✨`
-      );
-    } else if (userText === "📞 Хочу консультацию") {
-      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.OFFER };
-      await sendMessage(
-        chatId,
-        `Отлично! 🙌
-
-Напиши своё имя и удобный способ связи (телефон, email или username в соцсетях) — я свяжусь в течение 24 часов.`
+      await sendMessage(chatId,
+        "Хорошо, без давления 😊\n\nМой AI-инструмент:\n👉 https://lucky-tartufo-0b2313.netlify.app\n\nПиши если появятся вопросы! ✨"
       );
     } else {
-      // Пользователь написал контакт
-      userStates[chatId] = {
-        ...userStates[chatId],
-        stage: FUNNEL_STAGES.DONE,
-        contact: userText,
-      };
-
-      // Сохраняем контакт в лог (в продакшене — отправь в Google Sheets или CRM)
-      console.log("NEW LEAD:", {
-        chatId,
-        task: userStates[chatId].task,
-        audience: userStates[chatId].audience,
-        contact: userText,
-        timestamp: new Date().toISOString(),
-      });
-
-      await sendMessage(
-        chatId,
-        `Отлично, записала! ✅
-
-Свяжусь с тобой в течение 24 часов 🕐
-
-Пока можешь посмотреть мой AI-инструмент для контента:
-👉 https://lucky-tartufo-0b2313.netlify.app
-
-До скорого! 👋`
+      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
+      // Сохраняем в Google Sheets
+      await saveToSheets(chatId, userStates[chatId].task, userStates[chatId].audience, userText);
+      await sendMessage(chatId,
+        "Записала! ✅\n\nСвяжусь в течение 24 часов 🕐\n\n👉 https://lucky-tartufo-0b2313.netlify.app"
       );
     }
     return;
   }
 
-  // ЕСЛИ НАПИСАЛ ЧТО-ТО НЕ ПО СКРИПТУ — сбрасываем в начало
   userStates[chatId] = { stage: FUNNEL_STAGES.START };
-  await sendMessage(
-    chatId,
-    `Привет! Напиши /start чтобы начать, или задай любой вопрос — отвечу 😊`
-  );
+  await handleFunnelStep(chatId, userText, { stage: FUNNEL_STAGES.START });
 }
 
-// ============================================
-// ГЛАВНЫЙ ОБРАБОТЧИК WEBHOOK
-// ============================================
+async function registerWebhook() {
+  const response = await fetch(`https://platform-api.max.ru/subscriptions?access_token=${MAX_BOT_TOKEN}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: WEBHOOK_URL }),
+  });
+  return response.json();
+}
+
 exports.handler = async (event) => {
-  // Проверяем метод
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 200, body: "Max Webhook is alive ✅" };
+  if (event.httpMethod === "GET" && event.queryStringParameters && event.queryStringParameters.register) {
+    const result = await registerWebhook();
+    return { statusCode: 200, body: JSON.stringify(result) };
+  }
+
+  if (event.httpMethod === "GET") {
+    return { statusCode: 200, body: "Max Webhook is alive" };
   }
 
   try {
     const update = JSON.parse(event.body);
+    console.log("Update:", JSON.stringify(update).substring(0, 300));
 
-    // Получаем сообщение
-    const message = update.message;
-    if (!message) {
-      return { statusCode: 200, body: "ok" };
+    var chatId = null;
+    var text = "";
+
+    if (update.update_type === "message_created") {
+      chatId = update.message.recipient.chat_id;
+      text = update.message.body.text || "";
     }
 
-    const chatId = message.chat?.id || message.from?.id;
-    const text = message.text || "";
+    console.log("chatId:", chatId, "text:", text);
 
     if (!chatId) {
       return { statusCode: 200, body: "ok" };
     }
 
-    // Команда /start — сброс воронки
-    if (text === "/start") {
+    if (text === "/start" || !userStates[chatId]) {
       userStates[chatId] = { stage: FUNNEL_STAGES.START };
     }
 
-    // Обрабатываем шаг воронки
-    await handleFunnelStep(chatId, text, userStates[chatId] || {});
-
+    await handleFunnelStep(chatId, text, userStates[chatId]);
     return { statusCode: 200, body: "ok" };
   } catch (error) {
-    console.error("Webhook error:", error);
+    console.error("Error:", error.message);
     return { statusCode: 200, body: "ok" };
   }
 };
