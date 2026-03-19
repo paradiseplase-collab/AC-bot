@@ -39,7 +39,7 @@ async function sendMessage(chatId, text, buttons = null) {
   });
 
   const result = await response.json();
-  console.log("Send result:", JSON.stringify(result).substring(0, 300));
+  console.log("Send result:", JSON.stringify(result).substring(0, 1000));
   return result;
 }
 
