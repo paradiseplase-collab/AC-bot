@@ -10,33 +10,33 @@ const FUNNEL_STAGES = {
   QUALIFY_TASK: "qualify_task",
   QUALIFY_AUDIENCE: "qualify_audience",
   COLLECT_CONTACT: "collect_contact",
+  WAITING_CONTACT: "waiting_contact",
   DONE: "done",
 };
 
 async function sendMessage(chatId, text, buttons = null) {
   console.log("Sending to chatId:", chatId);
 
-  const body = {
-    type: "text",
-    text: text
-  };
+  const body = { text: text };
 
   if (buttons) {
     body.attachments = [{
       type: "inline_keyboard",
-      payload: {
-        buttons: buttons
-      }
+      payload: { buttons: buttons }
     }];
   }
 
-  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
+  const response = await fetch(`https://platform-api.max.ru/messages?chat_id=${chatId}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": MAX_BOT_TOKEN
+    },
     body: JSON.stringify(body),
   });
+
   const result = await response.json();
-  console.log("Send result:", JSON.stringify(result).substring(0, 150));
+  console.log("Send result:", JSON.stringify(result).substring(0, 200));
   return result;
 }
 
@@ -131,11 +131,10 @@ async function handleFunnelStep(chatId, userText, state) {
         "Хорошо, без давления 😊\n\nМой AI-инструмент:\n👉 https://lucky-tartufo-0b2313.netlify.app\n\nПиши если появятся вопросы! ✨"
       );
     } else if (userText.toLowerCase().includes("хочу консультацию")) {
-      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE };
+      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.WAITING_CONTACT };
       await sendMessage(chatId,
-        "Отлично! 🙌\n\nНапиши своё имя и удобный способ связи — телефон или username в соцсетях. Свяжусь в течение 24 часов! 😊"
+        "Отлично! 🙌\n\nНапиши своё имя и удобный способ связи — телефон или username в соцсетях."
       );
-      userStates[chatId].stage = "waiting_contact";
     } else {
       userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
       await saveToSheets(chatId, userStates[chatId].task, userStates[chatId].audience, userText);
@@ -146,7 +145,7 @@ async function handleFunnelStep(chatId, userText, state) {
     return;
   }
 
-  if (stage === "waiting_contact") {
+  if (stage === FUNNEL_STAGES.WAITING_CONTACT) {
     userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
     await saveToSheets(chatId, userStates[chatId].task, userStates[chatId].audience, userText);
     await sendMessage(chatId,
@@ -160,9 +159,12 @@ async function handleFunnelStep(chatId, userText, state) {
 }
 
 async function registerWebhook() {
-  const response = await fetch(`https://platform-api.max.ru/subscriptions?access_token=${MAX_BOT_TOKEN}`, {
+  const response = await fetch(`https://platform-api.max.ru/subscriptions`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": MAX_BOT_TOKEN
+    },
     body: JSON.stringify({ url: WEBHOOK_URL }),
   });
   return response.json();
@@ -180,6 +182,7 @@ exports.handler = async (event) => {
 
   try {
     const update = JSON.parse(event.body);
+    console.log("Update type:", update.update_type);
     console.log("Update:", JSON.stringify(update).substring(0, 300));
 
     var chatId = null;
@@ -189,7 +192,6 @@ exports.handler = async (event) => {
       chatId = update.message.recipient.chat_id;
       text = update.message.body.text || "";
     } else if (update.update_type === "message_callback") {
-      // Обработка нажатия кнопки
       chatId = update.callback.message.recipient.chat_id;
       text = update.callback.payload || "";
       console.log("Button pressed:", text);
