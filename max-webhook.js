@@ -22,21 +22,24 @@ async function sendMessage(chatId, text, buttons = null) {
   if (buttons) {
     body.attachments = [{
       type: "inline_keyboard",
-      payload: { buttons: buttons }
+      payload: {
+        buttons: buttons.map(row => row.map(btn => ({
+          type: "callback",
+          text: btn.text,
+          payload: btn.payload
+        })))
+      }
     }];
   }
 
-  const response = await fetch(`https://platform-api.max.ru/messages?chat_id=${chatId}`, {
+  const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": MAX_BOT_TOKEN
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
   const result = await response.json();
-  console.log("Send result:", JSON.stringify(result).substring(0, 200));
+  console.log("Send result:", JSON.stringify(result).substring(0, 300));
   return result;
 }
 
@@ -86,10 +89,10 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?",
       [
-        [{ type: "callback", text: "📝 Контент для соцсетей", payload: "Нужен контент для соцсетей" }],
-        [{ type: "callback", text: "🤖 Настроить AI-бота", payload: "Хочу настроить AI-бота" }],
-        [{ type: "callback", text: "📈 Больше клиентов через контент", payload: "Хочу больше клиентов через контент" }],
-        [{ type: "callback", text: "💡 Изучаю AI-инструменты", payload: "Просто изучаю AI-инструменты" }]
+        [{ text: "📝 Контент для соцсетей", payload: "Нужен контент для соцсетей" }],
+        [{ text: "🤖 Настроить AI-бота", payload: "Хочу настроить AI-бота" }],
+        [{ text: "📈 Больше клиентов через контент", payload: "Хочу больше клиентов через контент" }],
+        [{ text: "💡 Изучаю AI-инструменты", payload: "Просто изучаю AI-инструменты" }]
       ]
     );
     return;
@@ -100,10 +103,10 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?",
       [
-        [{ type: "callback", text: "👔 B2B — компании и предприниматели", payload: "B2B — компании и предприниматели" }],
-        [{ type: "callback", text: "👤 B2C — частные люди", payload: "B2C — частные люди" }],
-        [{ type: "callback", text: "🎓 Эксперты и специалисты", payload: "Эксперты и специалисты" }],
-        [{ type: "callback", text: "🛍 Интернет-магазин / продукт", payload: "Интернет-магазин / продукт" }]
+        [{ text: "👔 B2B — компании и предприниматели", payload: "B2B — компании и предприниматели" }],
+        [{ text: "👤 B2C — частные люди", payload: "B2C — частные люди" }],
+        [{ text: "🎓 Эксперты и специалисты", payload: "Эксперты и специалисты" }],
+        [{ text: "🛍 Интернет-магазин / продукт", payload: "Интернет-магазин / продукт" }]
       ]
     );
     return;
@@ -117,8 +120,8 @@ async function handleFunnelStep(chatId, userText, state) {
     await sendMessage(chatId,
       "Хочешь разобрать твою ситуацию подробнее?",
       [
-        [{ type: "callback", text: "📞 Хочу консультацию", payload: "Хочу консультацию" }],
-        [{ type: "callback", text: "Не сейчас", payload: "не сейчас" }]
+        [{ text: "📞 Хочу консультацию", payload: "Хочу консультацию" }],
+        [{ text: "Не сейчас", payload: "не сейчас" }]
       ]
     );
     return;
@@ -159,12 +162,9 @@ async function handleFunnelStep(chatId, userText, state) {
 }
 
 async function registerWebhook() {
-  const response = await fetch(`https://platform-api.max.ru/subscriptions`, {
+  const response = await fetch(`https://platform-api.max.ru/subscriptions?access_token=${MAX_BOT_TOKEN}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": MAX_BOT_TOKEN
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ url: WEBHOOK_URL }),
   });
   return response.json();
@@ -183,7 +183,6 @@ exports.handler = async (event) => {
   try {
     const update = JSON.parse(event.body);
     console.log("Update type:", update.update_type);
-    console.log("Update:", JSON.stringify(update).substring(0, 300));
 
     var chatId = null;
     var text = "";
