@@ -13,15 +13,27 @@ const FUNNEL_STAGES = {
   DONE: "done",
 };
 
-async function sendMessage(chatId, text) {
+async function sendMessage(chatId, text, buttons = null) {
   console.log("Sending to chatId:", chatId);
+
+  const body = {
+    type: "text",
+    text: text
+  };
+
+  if (buttons) {
+    body.attachments = [{
+      type: "inline_keyboard",
+      payload: {
+        buttons: buttons
+      }
+    }];
+  }
+
   const response = await fetch(`https://botapi.max.ru/messages?access_token=${MAX_BOT_TOKEN}&chat_id=${chatId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      type: "text",
-      text: text
-    }),
+    body: JSON.stringify(body),
   });
   const result = await response.json();
   console.log("Send result:", JSON.stringify(result).substring(0, 150));
@@ -72,7 +84,13 @@ async function handleFunnelStep(chatId, userText, state) {
   if (stage === FUNNEL_STAGES.START) {
     userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_TASK };
     await sendMessage(chatId,
-      "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?\n\n1️⃣ Нужен контент для соцсетей\n2️⃣ Хочу настроить AI-бота\n3️⃣ Хочу больше клиентов через контент\n4️⃣ Просто изучаю AI-инструменты"
+      "Привет! 👋 Я Анастасия Булатова — помогаю экспертам создавать контент с помощью AI.\n\nРасскажи, с чем хочешь разобраться?",
+      [
+        [{ type: "callback", text: "📝 Контент для соцсетей", payload: "Нужен контент для соцсетей" }],
+        [{ type: "callback", text: "🤖 Настроить AI-бота", payload: "Хочу настроить AI-бота" }],
+        [{ type: "callback", text: "📈 Больше клиентов через контент", payload: "Хочу больше клиентов через контент" }],
+        [{ type: "callback", text: "💡 Изучаю AI-инструменты", payload: "Просто изучаю AI-инструменты" }]
+      ]
     );
     return;
   }
@@ -80,7 +98,13 @@ async function handleFunnelStep(chatId, userText, state) {
   if (stage === FUNNEL_STAGES.QUALIFY_TASK) {
     userStates[chatId] = { stage: FUNNEL_STAGES.QUALIFY_AUDIENCE, task: userText };
     await sendMessage(chatId,
-      "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?\n\n1️⃣ B2B — компании и предприниматели\n2️⃣ B2C — частные люди\n3️⃣ Эксперты и специалисты\n4️⃣ Интернет-магазин / продукт"
+      "Понятно — хорошая задача 💪\n\nА кто твоя аудитория?",
+      [
+        [{ type: "callback", text: "👔 B2B — компании и предприниматели", payload: "B2B — компании и предприниматели" }],
+        [{ type: "callback", text: "👤 B2C — частные люди", payload: "B2C — частные люди" }],
+        [{ type: "callback", text: "🎓 Эксперты и специалисты", payload: "Эксперты и специалисты" }],
+        [{ type: "callback", text: "🛍 Интернет-магазин / продукт", payload: "Интернет-магазин / продукт" }]
+      ]
     );
     return;
   }
@@ -91,7 +115,11 @@ async function handleFunnelStep(chatId, userText, state) {
     const warmUpText = await generateWarmUpContent(userStates[chatId].task, userText);
     await sendMessage(chatId, warmUpText);
     await sendMessage(chatId,
-      "Если хочешь разобрать твою ситуацию подробнее — напиши имя и контакт, свяжусь лично 🤝\n\nИли напиши «не сейчас» 😊"
+      "Хочешь разобрать твою ситуацию подробнее?",
+      [
+        [{ type: "callback", text: "📞 Хочу консультацию", payload: "Хочу консультацию" }],
+        [{ type: "callback", text: "Не сейчас", payload: "не сейчас" }]
+      ]
     );
     return;
   }
@@ -102,14 +130,28 @@ async function handleFunnelStep(chatId, userText, state) {
       await sendMessage(chatId,
         "Хорошо, без давления 😊\n\nМой AI-инструмент:\n👉 https://lucky-tartufo-0b2313.netlify.app\n\nПиши если появятся вопросы! ✨"
       );
+    } else if (userText.toLowerCase().includes("хочу консультацию")) {
+      userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE };
+      await sendMessage(chatId,
+        "Отлично! 🙌\n\nНапиши своё имя и удобный способ связи — телефон или username в соцсетях. Свяжусь в течение 24 часов! 😊"
+      );
+      userStates[chatId].stage = "waiting_contact";
     } else {
       userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
-      // Сохраняем в Google Sheets
       await saveToSheets(chatId, userStates[chatId].task, userStates[chatId].audience, userText);
       await sendMessage(chatId,
         "Записала! ✅\n\nСвяжусь в течение 24 часов 🕐\n\n👉 https://lucky-tartufo-0b2313.netlify.app"
       );
     }
+    return;
+  }
+
+  if (stage === "waiting_contact") {
+    userStates[chatId] = { ...userStates[chatId], stage: FUNNEL_STAGES.DONE, contact: userText };
+    await saveToSheets(chatId, userStates[chatId].task, userStates[chatId].audience, userText);
+    await sendMessage(chatId,
+      "Записала! ✅\n\nСвяжусь в течение 24 часов 🕐\n\n👉 https://lucky-tartufo-0b2313.netlify.app"
+    );
     return;
   }
 
@@ -146,6 +188,11 @@ exports.handler = async (event) => {
     if (update.update_type === "message_created") {
       chatId = update.message.recipient.chat_id;
       text = update.message.body.text || "";
+    } else if (update.update_type === "message_callback") {
+      // Обработка нажатия кнопки
+      chatId = update.callback.message.recipient.chat_id;
+      text = update.callback.payload || "";
+      console.log("Button pressed:", text);
     }
 
     console.log("chatId:", chatId, "text:", text);
