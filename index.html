@@ -31,6 +31,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Decorative background */
 body::before {
   content: '';
   position: fixed;
@@ -43,6 +44,7 @@ body::before {
   z-index: 0;
 }
 
+/* ── HEADER CONTRAST FIX ── */
 header {
   background: rgba(245,240,232,0.96) !important;
   border-radius: 20px !important;
@@ -59,12 +61,15 @@ header {
   padding: 36px 24px 60px;
 }
 
+/* ── HEADER ── */
 header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 32px;
 }
+
+.header-left {}
 
 .eyebrow {
   font-family: 'IBM Plex Mono', monospace;
@@ -140,6 +145,7 @@ h1 em {
   opacity: 0.7;
 }
 
+/* ── GRID LAYOUT ── */
 .layout {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -147,6 +153,7 @@ h1 em {
   align-items: start;
 }
 
+/* ── CARD ── */
 .card {
   background: rgba(14,11,24,0.75);
   border: 1px solid rgba(245,240,232,0.15);
@@ -175,6 +182,7 @@ h1 em {
   background: rgba(184,134,11,0.2);
 }
 
+/* ── FORM ELEMENTS ── */
 label.field-label {
   display: block;
   font-size: 0.65rem;
@@ -206,6 +214,7 @@ input:focus, select:focus, textarea:focus {
 select option { background: #1a1228; color: #ffffff; }
 textarea { resize: vertical; min-height: 70px; }
 
+/* ── FORMAT ROTATOR ── */
 .format-strip {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -234,6 +243,7 @@ textarea { resize: vertical; min-height: 70px; }
   color: #f5a0ac;
 }
 
+/* ── SCHEDULE DAYS ── */
 .days-row {
   display: flex;
   gap: 7px;
@@ -259,6 +269,7 @@ textarea { resize: vertical; min-height: 70px; }
   color: var(--gold-light);
 }
 
+/* ── TOKENS ── */
 .token-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .token-field {
   display: flex;
@@ -284,6 +295,7 @@ textarea { resize: vertical; min-height: 70px; }
   letter-spacing: 1px;
 }
 
+/* ── GENERATE BUTTON ── */
 .btn-gen {
   width: 100%;
   padding: 15px;
@@ -315,33 +327,10 @@ textarea { resize: vertical; min-height: 70px; }
 .btn-gen:hover { box-shadow: 0 6px 36px rgba(201,72,91,0.5); transform: translateY(-1px); }
 .btn-gen:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-/* ── CONTENT PLAN GENERATE BUTTON ── */
-.btn-plan-gen {
-  width: 100%;
-  padding: 11px;
-  background: linear-gradient(135deg, rgba(184,134,11,0.25) 0%, rgba(184,134,11,0.15) 100%);
-  border: 1px solid rgba(184,134,11,0.5);
-  border-radius: 10px;
-  color: var(--gold-light);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all .3s;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-}
-.btn-plan-gen:hover {
-  background: linear-gradient(135deg, rgba(184,134,11,0.4) 0%, rgba(184,134,11,0.25) 100%);
-  border-color: var(--gold);
-  box-shadow: 0 3px 16px rgba(184,134,11,0.2);
-  transform: translateY(-1px);
-}
-.btn-plan-gen:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-
+/* ── RIGHT COLUMN ── */
 .right-col { display: flex; flex-direction: column; gap: 20px; }
 
+/* ── PREVIEW CARD ── */
 .preview-card {
   background: rgba(245,240,232,0.04);
   border: 1px solid rgba(245,240,232,0.1);
@@ -433,6 +422,7 @@ textarea { resize: vertical; min-height: 70px; }
   letter-spacing: 0.5px;
 }
 
+/* loading */
 .spinner {
   display: none;
   padding: 50px;
@@ -473,6 +463,7 @@ textarea { resize: vertical; min-height: 70px; }
 }
 .foot-stat b { color: var(--gold); font-weight: 500; }
 
+/* ── HASHTAGS ── */
 .hashtag-bar {
   background: rgba(45,27,105,0.2);
   border: 1px solid rgba(45,27,105,0.4);
@@ -496,6 +487,7 @@ textarea { resize: vertical; min-height: 70px; }
   font-weight: 500;
 }
 
+/* ── IMAGE CARD ── */
 .image-card {
   background: rgba(245,240,232,0.04);
   border: 1px solid rgba(245,240,232,0.1);
@@ -557,6 +549,7 @@ textarea { resize: vertical; min-height: 70px; }
   margin-bottom: 3px;
 }
 
+/* ── SCHEDULE INFO ── */
 .schedule-card {
   background: rgba(40,28,5,0.8);
   border: 1px solid rgba(184,134,11,0.35);
@@ -595,6 +588,7 @@ textarea { resize: vertical; min-height: 70px; }
   opacity: 0.7;
 }
 
+/* ── HISTORY LOG ── */
 .log-section {
   background: rgba(245,240,232,0.02);
   border: 1px solid rgba(245,240,232,0.08);
@@ -626,6 +620,7 @@ textarea { resize: vertical; min-height: 70px; }
 .log-text { color: var(--paper); opacity: .7; line-height: 1.5; }
 .log-time { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--mist); flex-shrink: 0; }
 
+/* ── ERROR ── */
 .err-box {
   background: rgba(239,68,68,0.1);
   border: 1px solid rgba(239,68,68,0.3);
@@ -638,6 +633,7 @@ textarea { resize: vertical; min-height: 70px; }
   font-family: 'IBM Plex Mono', monospace;
 }
 
+/* ── POST SUCCESS ── */
 .post-success {
   background: rgba(34,197,94,0.1);
   border: 1px solid rgba(34,197,94,0.3);
@@ -652,6 +648,10 @@ textarea { resize: vertical; min-height: 70px; }
 }
 .post-success.show { display: flex; }
 
+
+
+
+/* ── IMAGE UPLOAD ── */
 .img-dropzone {
   position: relative;
   border-radius: 12px;
@@ -663,6 +663,7 @@ textarea { resize: vertical; min-height: 70px; }
   background: rgba(201,72,91,0.05);
 }
 
+/* ── CONTENT PLAN ── */
 .plan-item {
   display: flex;
   align-items: center;
@@ -714,21 +715,9 @@ textarea { resize: vertical; min-height: 70px; }
   transition: all .2s;
   flex-shrink: 0;
 }
-.plan-done-btn:hover { border-color: #22c55e; color: #86efac; }
+.plan-done-btn:hover { border-color: var(--accent3); color: #86efac; }
 
-/* plan loading state */
-.plan-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 20px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--gold);
-  opacity: 0.7;
-}
-
+/* ── DEST BLOCKS ── */
 .dest-block { padding: 4px 0; }
 .dest-body label.field-label { color: rgba(245,240,232,0.8) !important; }
 .dest-header {
@@ -779,6 +768,8 @@ textarea { resize: vertical; min-height: 70px; }
   margin: 10px 0;
 }
 
+
+/* ── EDITOR ── */
 .edit-mode-bar {
   display: none;
   align-items: center;
@@ -812,6 +803,7 @@ textarea { resize: vertical; min-height: 70px; }
 
 .char-warning { color: var(--rose) !important; }
 
+/* ── MEMORY PANEL ── */
 .memory-card {
   background: rgba(20,14,50,0.75);
   border: 1px solid rgba(124,92,191,0.4);
@@ -899,6 +891,7 @@ textarea { resize: vertical; min-height: 70px; }
   display: none;
 }
 
+/* scrollbar */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(201,72,91,0.2); border-radius: 3px; }
@@ -913,6 +906,7 @@ textarea { resize: vertical; min-height: 70px; }
 <body>
 <div class="container">
 
+  <!-- HEADER -->
   <header>
     <div class="header-left">
       <div class="eyebrow">// Персональный ИИ-автор</div>
@@ -927,8 +921,10 @@ textarea { resize: vertical; min-height: 70px; }
 
   <div class="layout">
 
+    <!-- LEFT: CONTROLS -->
     <div>
 
+      <!-- Topic & format -->
       <div class="card" style="margin-bottom:20px">
         <div class="card-label">Тема и формат</div>
 
@@ -949,6 +945,7 @@ textarea { resize: vertical; min-height: 70px; }
         <textarea id="ctxInput" placeholder="Упомяни конкретный инструмент, случай, деталь…"></textarea>
       </div>
 
+      <!-- Memory / Profile -->
       <div class="memory-card">
         <div class="memory-toggle" onclick="toggleMemory()">
           <div class="memory-toggle-label">🧠 Моя база знаний</div>
@@ -980,9 +977,11 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- Schedule -->
       <div class="card" style="margin-bottom:20px">
         <div class="card-label">Расписание публикаций</div>
 
+        <!-- Personal wall -->
         <div class="dest-block">
           <div class="dest-header">
             <label class="dest-toggle">
@@ -1016,6 +1015,7 @@ textarea { resize: vertical; min-height: 70px; }
 
         <div class="dest-divider"></div>
 
+        <!-- Group -->
         <div class="dest-block">
           <div class="dest-header">
             <label class="dest-toggle">
@@ -1048,9 +1048,19 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- VK Tokens -->
       <div class="card" style="margin-bottom:20px">
         <div class="card-label">VK API</div>
         <div class="token-row">
+          <label class="field-label" style="margin-bottom:5px">Claude API Key</label>
+          <div class="token-field">
+            <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-..." style="font-size:0.68rem" autocomplete="off">
+            <button onclick="togglePassVis('claudeApiKey','claudeEye')" id="claudeEye" style="background:transparent;border:1px solid rgba(245,240,232,0.15);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:0.75rem;flex-shrink:0">👁</button>
+            <span class="token-tag" style="border-color:rgba(201,72,91,0.3);color:var(--rose)">AI</span>
+          </div>
+          <div style="font-size:0.63rem;font-family:'IBM Plex Mono',monospace;line-height:1.6;margin-bottom:14px;padding:8px 12px;background:rgba(201,72,91,0.05);border:1px solid rgba(201,72,91,0.15);border-radius:8px;color:var(--mist)">
+            Получить ключ: <a href="https://console.anthropic.com" target="_blank" style="color:var(--rose);text-decoration:none">console.anthropic.com</a> → API Keys → Create Key
+          </div>
           <label class="field-label" style="margin-bottom:5px">Access Token</label>
           <div class="token-field">
             <input type="password" id="vkToken" placeholder="vk1.a.xxxxxxxxxxxxx" style="font-size:0.68rem" autocomplete="off">
@@ -1070,13 +1080,14 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- Telegram -->
       <div class="card" style="margin-bottom:20px;border-color:rgba(41,182,246,0.3)">
         <div class="card-label" style="color:#29b6f6">Telegram</div>
         <div class="dest-block">
           <div class="dest-header">
             <label class="dest-toggle">
               <input type="checkbox" id="tgEnabled" onchange="toggleTg()">
-              <span class="dest-check"></span>
+              <span class="dest-check" style=""></span>
             </label>
             <span class="dest-title">✈️ Публиковать в Telegram</span>
           </div>
@@ -1102,6 +1113,7 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- MAX -->
       <div class="card" style="margin-bottom:20px;border-color:rgba(149,117,205,0.3)">
         <div class="card-label" style="color:#9575cd">Макс (MAX)</div>
         <div class="dest-block">
@@ -1136,12 +1148,23 @@ textarea { resize: vertical; min-height: 70px; }
 
       <!-- Content Plan -->
       <div class="card" style="margin-bottom:20px">
-        <div class="card-label" id="planCardLabel">📅 План постов</div>
+        <div class="card-label" style="justify-content:space-between;display:flex;align-items:center;width:100%">
+          <span>📅 План постов — <span id="planMonthLabel">Март 2026</span></span>
+        </div>
 
-        <!-- ✅ КНОПКА ГЕНЕРАЦИИ КОНТЕНТ-ПЛАНА -->
-        <button class="btn-plan-gen" id="planGenBtn" onclick="generateContentPlan()">
-          ✦ Сгенерировать контент план
-        </button>
+        <!-- Month selector + generate -->
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+          <select id="planMonthSelect" style="flex:1;margin-bottom:0;font-size:0.72rem">
+          </select>
+          <button onclick="generatePlan()" id="genPlanBtn" style="background:linear-gradient(135deg,rgba(201,72,91,0.3),rgba(124,92,191,0.3));border:1px solid rgba(201,72,91,0.4);border-radius:8px;padding:8px 14px;color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.65rem;cursor:pointer;letter-spacing:1px;white-space:nowrap;transition:all .2s" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">✨ СГЕНЕРИРОВАТЬ</button>
+        </div>
+
+        <div id="planGenStatus" style="display:none;font-size:0.7rem;font-family:'IBM Plex Mono',monospace;color:#9b8ec4;padding:8px 0;text-align:center">
+          <span class="spinner show" style="padding:0;gap:4px;display:inline-flex">
+            <span class="spinner-ring"></span><span class="spinner-ring"></span><span class="spinner-ring"></span>
+          </span>
+          Генерирую план...
+        </div>
 
         <div id="planList" style="display:flex;flex-direction:column;gap:7px"></div>
         <div style="font-size:0.62rem;color:var(--mist);font-family:'IBM Plex Mono',monospace;margin-top:12px;opacity:0.6">
@@ -1150,7 +1173,7 @@ textarea { resize: vertical; min-height: 70px; }
       </div>
 
       <button class="btn-gen" id="mainBtn" onclick="runGenerate()">
-        Создать и опубликовать
+        ✨ Создать пост
       </button>
       <div class="err-box" id="errBox"></div>
     </div>
@@ -1158,13 +1181,14 @@ textarea { resize: vertical; min-height: 70px; }
     <!-- RIGHT: OUTPUT -->
     <div class="right-col">
 
+      <!-- Article preview -->
       <div class="preview-card">
         <div class="preview-top">
           <div class="preview-label">Текст поста</div>
           <div class="action-row">
             <button class="btn-sm" id="editBtn" onclick="toggleEdit()" style="display:none">✏️ Редактировать</button>
             <button class="btn-sm" id="copyBtn" onclick="copyText()">📋 Копировать</button>
-            <button class="btn-sm post" id="postBtn" onclick="postToVK()" style="display:none">🚀 В ВКонтакте</button>
+            <button class="btn-sm post" id="postBtn" onclick="publishAll()" style="display:none">🚀 Опубликовать</button>
           </div>
         </div>
 
@@ -1192,16 +1216,19 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- Hashtags -->
       <div class="hashtag-bar" id="hashBar">
         <div class="hashtag-label">Хэштеги</div>
         <div class="hashtag-text" id="hashText"></div>
       </div>
 
+      <!-- Post success -->
       <div class="post-success" id="postSuccess">
         <span>✅</span>
         <span id="postSuccessMsg">Пост опубликован в ВКонтакте!</span>
       </div>
 
+      <!-- Image -->
       <div class="image-card">
         <div class="image-top">
           <div class="image-label-txt">Изображение к посту</div>
@@ -1212,6 +1239,7 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
         <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
         <div class="img-body">
+          <!-- Upload drop zone -->
           <div class="img-dropzone" id="imgDropzone"
             ondragover="event.preventDefault();this.classList.add('drag-over')"
             ondragleave="this.classList.remove('drag-over')"
@@ -1223,6 +1251,7 @@ textarea { resize: vertical; min-height: 70px; }
             <img class="generated-img" id="genImg" alt="">
           </div>
 
+          <!-- Prompt copy box -->
           <div class="img-prompt-note" id="imgNote">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
               <b>IMAGE PROMPT — скопируй для Midjourney / Kling / Runway</b>
@@ -1231,12 +1260,14 @@ textarea { resize: vertical; min-height: 70px; }
             <span id="imgPromptText"></span>
           </div>
 
+          <!-- Upload status -->
           <div id="uploadStatus" style="display:none;margin-top:10px;font-size:0.7rem;font-family:'IBM Plex Mono',monospace;color:#86efac;text-align:center">
             ✅ Своё изображение загружено
           </div>
         </div>
       </div>
 
+      <!-- Schedule display -->
       <div class="schedule-card" id="schedCard">
         <div class="sched-title">Расписание публикаций</div>
         <div class="sched-grid" id="schedGrid">
@@ -1245,6 +1276,7 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
       </div>
 
+      <!-- Log -->
       <div class="log-section" id="logSection">
         <div class="log-title">Журнал действий</div>
         <div id="logList"></div>
@@ -1254,6 +1286,7 @@ textarea { resize: vertical; min-height: 70px; }
   </div>
 </div>
 
+<!-- Save Toast -->
 <div id="saveToast" style="
   position:fixed; bottom:24px; right:24px;
   background: rgba(16,185,129,0.15);
@@ -1279,9 +1312,6 @@ let currentText = '';
 let currentHashtags = '';
 let generatedImgUrl = null;
 
-// ── CONTENT PLAN STATE ──
-let contentPlan = [];
-
 // Format picker
 function pickFmt(btn) {
   document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
@@ -1289,6 +1319,7 @@ function pickFmt(btn) {
   selectedFmt = btn.dataset.fmt;
 }
 
+// Toggle dest section visibility
 function toggleDest() {
   const wallOn = document.getElementById('wallEnabled').checked;
   const groupOn = document.getElementById('groupEnabled').checked;
@@ -1297,6 +1328,7 @@ function toggleDest() {
   updateScheduleDisplay();
 }
 
+// Day toggle - separate for wall and group
 function toggleDay(btn, dest) {
   btn.classList.toggle('active');
   updateScheduleDisplay();
@@ -1348,80 +1380,6 @@ function showErr(msg) {
   setTimeout(()=>b.style.display='none', 7000);
 }
 
-// ── GENERATE CONTENT PLAN ──
-async function generateContentPlan() {
-  const btn = document.getElementById('planGenBtn');
-  btn.disabled = true;
-  btn.textContent = '⟳ Генерирую план…';
-
-  const list = document.getElementById('planList');
-  list.innerHTML = '<div class="plan-loading"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div>';
-
-  addLog('📅', 'Генерирую контент-план…');
-
-  try {
-    const now = new Date();
-    const monthNames = ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
-    const monthName = monthNames[now.getMonth()];
-    const year = now.getFullYear();
-
-    const about = document.getElementById('mem_about')?.value || 'Анастасия Булатова — промпт-инженер и вайбкодер';
-    const tools = document.getElementById('mem_tools')?.value || 'Lovable, Replit, Cursor, Claude';
-    const audience = document.getElementById('mem_audience')?.value || 'AI-энтузиасты';
-
-    const resp = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1200,
-        messages: [{
-          role: "user",
-          content: `Ты помогаешь создать контент-план для ВКонтакте на ${monthName} ${year}.
-
-Автор: ${about}
-Инструменты: ${tools}
-Аудитория: ${audience}
-
-Создай 8 постов на месяц (публикации 2 раза в неделю). Учитывай реальные даты месяца.
-
-Форматы постов: история, лайфхак, разбор, провокация, топ-список, урок.
-
-Верни ТОЛЬКО JSON массив без markdown и пояснений:
-[
-  {"date": "1 ${monthName}", "topic": "тема поста", "fmt": "история"},
-  ...
-]`
-        }]
-      })
-    });
-
-    if (!resp.ok) throw new Error(`Claude API: ${resp.status}`);
-    const data = await resp.json();
-    const raw = data.content.map(b => b.text || '').join('').trim();
-
-    // Parse JSON (strip possible markdown fences)
-    const cleaned = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(cleaned);
-
-    contentPlan = parsed.map(item => ({ ...item, done: false }));
-
-    // Update card label
-    document.getElementById('planCardLabel').textContent = `📅 План постов — ${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
-
-    renderPlan();
-    saveToStorage();
-    addLog('✅', `Контент-план готов: ${contentPlan.length} постов`);
-  } catch(e) {
-    list.innerHTML = '<div style="font-size:0.72rem;color:#fca5a5;font-family:\'IBM Plex Mono\',monospace;padding:10px">⚠ Ошибка генерации плана</div>';
-    showErr('Ошибка генерации плана: ' + e.message);
-    addLog('❌', 'Ошибка: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '✦ Сгенерировать контент план';
-  }
-}
-
 // ── MAIN ──
 async function runGenerate() {
   const topic = document.getElementById('topicInput').value.trim();
@@ -1431,6 +1389,7 @@ async function runGenerate() {
   btn.disabled = true;
   btn.textContent = '⟳ Генерирую…';
 
+  // Reset UI
   document.getElementById('postSuccess').classList.remove('show');
   document.getElementById('hashBar').classList.remove('show');
   document.getElementById('footer').classList.remove('show');
@@ -1451,48 +1410,10 @@ async function runGenerate() {
     await generateArticle(topic);
     await generateImage(topic);
 
-    const token = document.getElementById('vkToken').value.trim();
-    const wallOn = document.getElementById('wallEnabled').checked;
-    const groupOn = document.getElementById('groupEnabled').checked;
-    const tgOn = document.getElementById('tgEnabled').checked;
-    const maxOn = document.getElementById('maxEnabled').checked;
-
-    let anyPosted = false;
-
-    if (token && (wallOn || groupOn)) {
-      addLog('🚀', 'Публикую в ВКонтакте…');
-      await postToVK();
-      anyPosted = true;
-    }
-
-    if (tgOn && document.getElementById('tgToken').value.trim()) {
-      try {
-        addLog('✈️', 'Публикую в Telegram…');
-        const msg = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
-        await postToTelegram(msg);
-        anyPosted = true;
-      } catch(e) {
-        showErr(e.message);
-        addLog('❌', 'Ошибка Telegram: ' + e.message);
-      }
-    }
-
-    if (maxOn && document.getElementById('maxToken').value.trim()) {
-      try {
-        addLog('🟣', 'Публикую в Макс…');
-        const msg = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
-        await postToMax(msg);
-        anyPosted = true;
-      } catch(e) {
-        showErr(e.message);
-        addLog('❌', 'Ошибка Макс: ' + e.message);
-      }
-    }
-
-    if (!anyPosted) {
-      document.getElementById('postBtn').style.display = 'flex';
-      addLog('💡', 'Токены не указаны — используй кнопку «В ВКонтакте» вручную');
-    }
+    // Auto-post if token present
+    // Показываем кнопку ручной публикации
+    document.getElementById('postBtn').style.display = 'flex';
+    addLog('💡', 'Пост готов — скопируй или опубликуй вручную');
   } catch(e) {
     showErr(e.message);
     addLog('❌', 'Ошибка: ' + e.message);
@@ -1526,9 +1447,12 @@ async function generateArticle(topic) {
 Заканчивай сильным утверждением или призывом.
 В самом конце добавь строку "===ХЭШТЕГИ===" и 5–7 хэштегов ВКонтакте (через пробел, с #).`;
 
-  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+  const apiKey = document.getElementById('claudeApiKey')?.value?.trim();
+  const articleHeaders = {"Content-Type":"application/json"};
+  if (apiKey) { articleHeaders["x-api-key"] = apiKey; articleHeaders["anthropic-version"] = "2023-06-01"; }
+  const resp = await fetch("https://rapid-smoke-77dd.paradise-plase.workers.dev", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
+    headers: articleHeaders,
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
@@ -1538,7 +1462,8 @@ async function generateArticle(topic) {
   });
   if (!resp.ok) throw new Error(`Claude API: ${resp.status}`);
   const data = await resp.json();
-  const full = data.content.map(b=>b.text||'').join('');
+  const full = (data.content || []).map(b=>b.text||'').join('');
+  if (!full) throw new Error(data.error?.message || 'Пустой ответ от API — проверь Claude API Key');
 
   const split = full.split('===ХЭШТЕГИ===');
   currentText = split[0].trim();
@@ -1546,6 +1471,7 @@ async function generateArticle(topic) {
 
   document.getElementById('spinner').classList.remove('show');
 
+  // Typewriter
   const body = document.getElementById('articleBody');
   body.className = 'article-body';
   body.textContent = '';
@@ -1562,6 +1488,7 @@ async function generateArticle(topic) {
     }, 12);
   });
 
+  // Stats
   document.getElementById('chars').textContent = currentText.length.toLocaleString();
   document.getElementById('words').textContent = currentText.split(/\s+/).filter(Boolean).length.toLocaleString();
   document.getElementById('fmtName').textContent = selectedFmt.split(' ').slice(0,2).join(' ');
@@ -1578,9 +1505,12 @@ async function generateArticle(topic) {
 
 // ── IMAGE ──
 async function generateImage(topic) {
-  const pResp = await fetch("https://api.anthropic.com/v1/messages", {
+  const imgApiKey = document.getElementById('claudeApiKey')?.value?.trim();
+  const imgHeaders = {"Content-Type":"application/json"};
+  if (imgApiKey) { imgHeaders["x-api-key"] = imgApiKey; imgHeaders["anthropic-version"] = "2023-06-01"; }
+  const pResp = await fetch("https://rapid-smoke-77dd.paradise-plase.workers.dev", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
+    headers: imgHeaders,
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 150,
@@ -1588,14 +1518,23 @@ async function generateImage(topic) {
     })
   });
   const pData = await pResp.json();
-  const imgPrompt = pData.content.map(b=>b.text||'').join('').trim();
+  const imgPrompt = (pData.content || []).map(b=>b.text||'').join('').trim();
 
   document.getElementById('imgPromptText').textContent = imgPrompt;
   document.getElementById('imgNote').style.display = 'block';
 
+  // Try multiple free image generation services as fallback
   const seed = Math.floor(Math.random() * 999999);
   const encoded = encodeURIComponent(imgPrompt);
-  generatedImgUrl = `https://image.pollinations.ai/prompt/${encoded}?width=800&height=480&nologo=true&nofeed=true&seed=${seed}&model=flux-pro`;
+  // Use picsum for placeholder while trying to generate
+  // Try flux model first, fallback to other providers
+  // Try multiple image services
+  const imageServices = [
+    `https://image.pollinations.ai/prompt/${encoded}?width=800&height=480&nologo=true&nofeed=true&seed=${seed}&model=flux`,
+    `https://image.pollinations.ai/prompt/${encoded}?width=800&height=480&nologo=true&seed=${seed}&model=turbo`,
+    `https://pollinations.ai/p/${encoded}?width=800&height=480&seed=${seed}`,
+  ];
+  generatedImgUrl = imageServices[seed % imageServices.length];
 
   const img = document.getElementById('genImg');
   document.getElementById('imgPlaceholder').innerHTML = '<div class="spinner show" style="padding:30px"><div class="spinner-ring"></div><div class="spinner-ring"></div><div class="spinner-ring"></div></div>';
@@ -1632,6 +1571,7 @@ async function postToVK() {
       access_token: token,
       v: '5.131'
     });
+    // Use JSONP-style via script tag to avoid CORS when opening as file://
     return new Promise((resolve, reject) => {
       const callbackName = 'vk_cb_' + Date.now();
       params.append('callback', callbackName);
@@ -1689,7 +1629,11 @@ async function postToTelegram(message) {
   const resp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' })
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    })
   });
   const json = await resp.json();
   if (!json.ok) throw new Error(`Telegram: ${json.description}`);
@@ -1703,10 +1647,14 @@ async function postToMax(message) {
   const chatId = document.getElementById('maxChatId').value.trim();
   if (!token || !chatId) return;
 
+  // MAX Bot API is compatible with Telegram Bot API
   const resp = await fetch(`https://botapi.max.ru/sendMessage?access_token=${token}`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: chatId, text: message })
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message
+    })
   });
   const json = await resp.json();
   if (json.error) throw new Error(`Макс: ${json.error.message || json.error}`);
@@ -1738,6 +1686,58 @@ function clearField(inputId, btnId) {
   addLog('🔒', 'Токен очищен');
 }
 
+// ── UTILS ──
+// ── PUBLISH ALL ──
+async function publishAll() {
+  const btn = document.getElementById('postBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Публикую...';
+
+  const msg = currentText + (currentHashtags ? '\n\n' + currentHashtags : '');
+  const results = [];
+
+  // VK
+  const vkToken = document.getElementById('vkToken').value.trim();
+  const wallOn = document.getElementById('wallEnabled').checked;
+  const groupOn = document.getElementById('groupEnabled').checked;
+  if (vkToken && (wallOn || groupOn)) {
+    try {
+      await postToVK();
+      results.push('✅ ВКонтакте');
+    } catch(e) { results.push('❌ ВК: ' + e.message); }
+  }
+
+  // Telegram
+  const tgOn = document.getElementById('tgEnabled').checked;
+  const tgToken = document.getElementById('tgToken')?.value?.trim();
+  if (tgOn && tgToken) {
+    try {
+      await postToTelegram(msg);
+      results.push('✅ Telegram');
+    } catch(e) { results.push('❌ Telegram: ' + e.message); }
+  }
+
+  // MAX
+  const maxOn = document.getElementById('maxEnabled').checked;
+  const maxToken = document.getElementById('maxToken')?.value?.trim();
+  if (maxOn && maxToken) {
+    try {
+      await postToMax(msg);
+      results.push('✅ Макс');
+    } catch(e) { results.push('❌ Макс: ' + e.message); }
+  }
+
+  if (results.length === 0) {
+    addLog('💡', 'Нет подключённых платформ — скопируй текст вручную');
+  } else {
+    results.forEach(r => addLog(r.startsWith('✅') ? '✅' : '❌', r));
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🚀 Опубликовать';
+}
+
+// ── TOAST ──
 let toastTimer = null;
 function showSavedToast() {
   const toast = document.getElementById('saveToast');
@@ -1746,6 +1746,7 @@ function showSavedToast() {
   toastTimer = setTimeout(() => toast.style.display = 'none', 2000);
 }
 
+// ── IMAGE UPLOAD ──
 function handleImageUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -1769,7 +1770,7 @@ function loadImageFile(file) {
     img.src = e.target.result;
     img.style.display = 'block';
     document.getElementById('uploadStatus').style.display = 'block';
-    document.getElementById('dlBtn').style.display = 'none';
+    document.getElementById('dlBtn').style.display = 'none'; // no download for uploaded
     addLog('🖼️', `Загружено своё изображение: ${file.name}`);
   };
   reader.readAsDataURL(file);
@@ -1802,6 +1803,7 @@ function dlImage() {
   window.open(generatedImgUrl, '_blank');
 }
 
+// ── MEMORY ──
 function toggleMemory() {
   const body = document.getElementById('memoryBody');
   const arrow = document.getElementById('memArrow');
@@ -1833,6 +1835,7 @@ function saveMemory() {
   setTimeout(() => saved.style.display = 'none', 3000);
 }
 
+// ── EDITOR ──
 let isEditMode = false;
 
 function toggleEdit() {
@@ -1860,6 +1863,7 @@ function toggleEdit() {
     btn.textContent = '✏️ Редактировать';
     btn.style.borderColor = '';
     btn.style.color = '';
+    // update stats
     document.getElementById('chars').textContent = currentText.length.toLocaleString();
     document.getElementById('words').textContent = currentText.split(/\s+/).filter(Boolean).length.toLocaleString();
     addLog('✏️', `Текст отредактирован (${currentText.length} симв.)`);
@@ -1878,7 +1882,17 @@ function updateEditCounter() {
   el.className = len > 2000 ? 'char-warning' : '';
 }
 
-// ── CONTENT PLAN RENDER ──
+// ── CONTENT PLAN ──
+const contentPlan = [
+  { date: "10 мар", topic: "Обо мне: промпт-инженер и вайбкодер", fmt: "история", done: false },
+  { date: "12 мар", topic: "Что такое вайбкодинг и почему это меняет всё", fmt: "провокация", done: false },
+  { date: "17 мар", topic: "Мои инструменты: Lovable, Replit, Cursor, Claude — честный разбор", fmt: "разбор", done: false },
+  { date: "19 мар", topic: "Как я написала первый промпт и что из этого вышло", fmt: "история", done: false },
+  { date: "24 мар", topic: "Топ-5 промптов которые я использую каждый день", fmt: "топ-список", done: false },
+  { date: "26 мар", topic: "AI — угроза или суперсила? Моё честное мнение", fmt: "провокация", done: false },
+  { date: "31 мар", topic: "Чему меня научил март: кейсы и провалы", fmt: "история", done: false },
+];
+
 const fmtMap = {
   'история': 'личная история с инсайтом',
   'провокация': 'провокационный вопрос с мнением автора',
@@ -1891,10 +1905,6 @@ const fmtMap = {
 function renderPlan() {
   const list = document.getElementById('planList');
   if (!list) return;
-  if (!contentPlan.length) {
-    list.innerHTML = '';
-    return;
-  }
   list.innerHTML = contentPlan.map((item, i) => `
     <div class="plan-item ${item.done ? 'done' : ''}" onclick="selectPlanItem(${i})">
       <span class="plan-date">${item.date}</span>
@@ -1909,6 +1919,7 @@ function selectPlanItem(i) {
   const item = contentPlan[i];
   if (item.done) return;
   document.getElementById('topicInput').value = item.topic;
+  // Auto-select matching format button
   const fmt = fmtMap[item.fmt];
   if (fmt) {
     document.querySelectorAll('.fmt-btn').forEach(b => {
@@ -1916,6 +1927,7 @@ function selectPlanItem(i) {
       if (b.dataset.fmt === fmt) selectedFmt = fmt;
     });
   }
+  // Scroll to top on mobile
   document.getElementById('topicInput').scrollIntoView({behavior:'smooth', block:'center'});
   addLog('📅', `Тема из плана: «${item.topic}»`);
 }
@@ -1926,9 +1938,76 @@ function markDone(e, i) {
   renderPlan();
   saveToStorage();
   addLog(contentPlan[i].done ? '✅' : '↩️',
-    contentPlan[i].done ? `Отмечено как опубликовано` : `Возвращено в план`);
+    contentPlan[i].done ? `Отмечено как опубликовано: «${contentPlan[i].topic}»` : `Возвращено в план`);
 }
 
+// ── GENERATE CONTENT PLAN ──
+async function generatePlan() {
+  const month = document.getElementById('planMonthSelect').value;
+  const btn = document.getElementById('genPlanBtn');
+  const status = document.getElementById('planGenStatus');
+
+  btn.disabled = true;
+  status.style.display = 'block';
+  document.getElementById('planMonthLabel').textContent = month;
+
+  const apiKey = document.getElementById('claudeApiKey')?.value?.trim();
+  const headers = {"Content-Type":"application/json"};
+  if (apiKey) { headers["x-api-key"] = apiKey; headers["anthropic-version"] = "2023-06-01"; }
+
+  const memory = getMemoryContext();
+  const postsPerMonth = 8;
+
+  try {
+    const resp = await fetch("https://rapid-smoke-77dd.paradise-plase.workers.dev", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content: `Составь контент-план на ${month} для автора ВКонтакте.
+${memory}
+
+Требования:
+- Ровно ${postsPerMonth} постов, 2 раза в неделю
+- Разные форматы: история, лайфхак, разбор, провокация, топ-список, урок
+- Темы живые, захватывающие, в стиле промпт-инженера и вайбкодера
+- Чередуй темы: AI-инструменты, личный опыт, вайбкодинг, провокации, советы
+
+Ответь ТОЛЬКО в формате JSON массива, без пояснений:
+[
+  {"date": "1 апр", "topic": "тема поста", "fmt": "история"},
+  ...
+]
+Форматы только: история, лайфхак, разбор, провокация, топ-список, урок`
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    const text = (data.content || []).map(b => b.text || '').join('');
+    const clean = text.replace(/\`\`\`json|\`\`\`/g, '').trim();
+    const plan = JSON.parse(clean);
+
+    // Replace current plan
+    contentPlan.length = 0;
+    plan.forEach(item => contentPlan.push({...item, done: false}));
+    renderPlan();
+    saveToStorage();
+    addLog('📅', `План на ${month} сгенерирован — ${plan.length} постов`);
+
+  } catch(e) {
+    showErr('Ошибка генерации плана: ' + e.message);
+    addLog('❌', 'Ошибка плана: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    status.style.display = 'none';
+  }
+}
+
+// ── TOKEN SECURITY ──
 function toggleTokenVisibility() {
   const input = document.getElementById('vkToken');
   const eye = document.getElementById('tokenEye');
@@ -1948,10 +2027,12 @@ function clearToken() {
   addLog('🔒', 'Токен очищен из памяти');
 }
 
+// Auto-clear token on page unload
 window.addEventListener('beforeunload', () => {
   document.getElementById('vkToken').value = '';
 });
 
+// ── LOCAL STORAGE SAVE / LOAD ──
 const LS_KEY = 'anastasia_bot_v1';
 
 function saveToStorage() {
@@ -1962,6 +2043,7 @@ function saveToStorage() {
       mem_audience: document.getElementById('mem_audience')?.value || '',
       mem_style: document.getElementById('mem_style')?.value || '',
       mem_extra: document.getElementById('mem_extra')?.value || '',
+      claudeKey: document.getElementById('claudeApiKey')?.value || '',
       wallTime: document.getElementById('wallTime')?.value || '09:00',
       groupTime: document.getElementById('groupTime')?.value || '19:00',
       wallEnabled: document.getElementById('wallEnabled')?.checked || false,
@@ -1971,7 +2053,8 @@ function saveToStorage() {
       tgChatId: document.getElementById('tgChatId')?.value || '',
       maxEnabled: document.getElementById('maxEnabled')?.checked || false,
       maxChatId: document.getElementById('maxChatId')?.value || '',
-      contentPlan: contentPlan,
+      planDone: contentPlan.map(p => p.done),
+      planTopics: contentPlan.map(p => ({date:p.date,topic:p.topic,fmt:p.fmt})),
       wallDays: getActiveDays('wallDays'),
       groupDays: getActiveDays('groupDays'),
     };
@@ -1986,12 +2069,15 @@ function loadFromStorage() {
     if (!raw) return;
     const data = JSON.parse(raw);
 
+    // Memory fields
+    if (data.claudeKey) document.getElementById('claudeApiKey').value = data.claudeKey;
     if (data.mem_about) document.getElementById('mem_about').value = data.mem_about;
     if (data.mem_tools) document.getElementById('mem_tools').value = data.mem_tools;
     if (data.mem_audience) document.getElementById('mem_audience').value = data.mem_audience;
     if (data.mem_style) document.getElementById('mem_style').value = data.mem_style;
     if (data.mem_extra) document.getElementById('mem_extra').value = data.mem_extra;
 
+    // Schedule
     if (data.wallTime) document.getElementById('wallTime').value = data.wallTime;
     if (data.groupTime) document.getElementById('groupTime').value = data.groupTime;
     if (data.groupId) document.getElementById('groupId').value = data.groupId;
@@ -2000,9 +2086,15 @@ function loadFromStorage() {
     if (data.tgEnabled) { document.getElementById('tgEnabled').checked = true; toggleTg(); }
     if (data.maxEnabled) { document.getElementById('maxEnabled').checked = true; toggleMax(); }
 
-    if (data.wallEnabled !== undefined) document.getElementById('wallEnabled').checked = data.wallEnabled;
-    if (data.groupEnabled !== undefined) document.getElementById('groupEnabled').checked = data.groupEnabled;
+    // Destinations
+    if (data.wallEnabled !== undefined) {
+      document.getElementById('wallEnabled').checked = data.wallEnabled;
+    }
+    if (data.groupEnabled !== undefined) {
+      document.getElementById('groupEnabled').checked = data.groupEnabled;
+    }
 
+    // Days
     if (data.wallDays) {
       document.querySelectorAll('#wallDays .day-btn').forEach(btn => {
         btn.classList.toggle('active', data.wallDays.includes(btn.dataset.day));
@@ -2014,22 +2106,53 @@ function loadFromStorage() {
       });
     }
 
-    // Restore saved content plan
-    if (data.contentPlan && Array.isArray(data.contentPlan) && data.contentPlan.length) {
-      contentPlan = data.contentPlan;
-      renderPlan();
+    // Plan - restore full plan if saved
+    if (data.planTopics && data.planTopics.length) {
+      contentPlan.length = 0;
+      data.planTopics.forEach((item, i) => {
+        contentPlan.push({...item, done: data.planDone?.[i] || false});
+      });
+    } else if (data.planDone) {
+      data.planDone.forEach((done, i) => {
+        if (contentPlan[i]) contentPlan[i].done = done;
+      });
     }
 
     addLog('💾', 'Данные восстановлены из памяти браузера');
   } catch(e) { console.warn('Storage load failed:', e); }
 }
 
+// Auto-save on any input change
 document.addEventListener('change', saveToStorage);
 document.addEventListener('input', saveToStorage);
 
+// ── POPULATE MONTH SELECT ──
+function populateMonths() {
+  const months = ['Январь','Февраль','Март','Апрель','Май','Июнь',
+                  'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const select = document.getElementById('planMonthSelect');
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  // Generate 36 months ahead (3 years)
+  for (let i = 0; i < 36; i++) {
+    const d = new Date(currentYear, currentMonth + i, 1);
+    const label = `${months[d.getMonth()]} ${d.getFullYear()}`;
+    const opt = document.createElement('option');
+    opt.value = label;
+    opt.textContent = label;
+    if (i === 0) opt.selected = true;
+    select.appendChild(opt);
+  }
+}
+
+// init schedule
+populateMonths();
 loadFromStorage();
 updateScheduleDisplay();
 toggleDest();
+renderPlan();
 </script>
 </body>
 </html>
