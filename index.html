@@ -1483,6 +1483,7 @@ async function generateArticle(topic) {
 Заканчивай сильным утверждением или призывом.
 В самом конце добавь строку "===ХЭШТЕГИ===" и 5–7 хэштегов ВКонтакте (через пробел, с #).`;
 
+  const apiKey = document.getElementById('claudeApiKey')?.value?.trim();
     const articleHeaders = {"Content-Type":"application/json"};
   if (apiKey) { articleHeaders["x-api-key"] = apiKey; articleHeaders["anthropic-version"] = "2023-06-01"; }
   const resp = await fetch("https://rapid-smoke-77dd.paradise-plase.workers.dev", {
